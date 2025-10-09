@@ -6,7 +6,7 @@ import pkgutil
 st.set_page_config(page_title="Aprender a Gerir o Meu Dinheiro", page_icon="💸", layout="centered")
 
 # --- Título e introdução ---
-st.title("💸 Aprender a Gerir o Meu Dinheiro - Simulações Interativas")
+st.title("💸 Aprender a Gerir o Meu Dinheiro - Aplicação")
 
 st.info("""
 👋 Olá! Pronto para descobrir o que o teu dinheiro pode fazer por ti?  

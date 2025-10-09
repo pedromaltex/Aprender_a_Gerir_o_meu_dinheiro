@@ -10,7 +10,7 @@ A friendly and interactive Streamlit app to visualize **call and put option payo
 * Choose **Long or Short** position
 * Enter **strike price** and **premium**
 * Visualize **profit/loss at expiration** for a range of stock prices
-* Interactive Plotly chart with **total payoff** and individual option lines
+* Interactive Plotly chart with **breakeven point** highlighted
 * Max and Min payoff displayed for easy analysis
 
 ---
@@ -29,8 +29,8 @@ git clone https://github.com/pedromaltex/Introducao_Matematica_Financeira.git
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
-cd cap2_paul_wilmott
-cd options
+cd cap2_paul_wilmott\call_put_options
+
 ```
 
 3. Install dependencies:
@@ -50,10 +50,9 @@ streamlit run app.py
 ```
 
 * Fill in the **strike price** and **premium**.
-* Select **option type** (Call or Put) and **position** (Long or Short).
-* Use **Add**, **Delete Previous**, or **Clear All** to manage options.
-* Click **Calculate Payoff** to see the interactive chart.
-* Hover over the chart to inspect **profit/loss** at specific stock prices.
+* Select **option type** and **position**.
+* Click **Calculate** to see the interactive payoff chart.
+* Hover over the chart to see **profit/loss** at specific stock prices.
 
 ---
 
@@ -66,9 +65,9 @@ streamlit run app.py
 ## Folder Structure 📁
 
 ```
-options/
+call-put-payoff-app/
 ├─ app.py              # Main Streamlit app
-├─ options.py          # Option payoff helper functions
+├─ call_put_aux.py     # Option payoff helper functions
 ├─ requirements.txt    # Dependencies
 ├─ README.md           # This file
 └─ screenshots/        # Example screenshots (optional)
@@ -92,4 +91,4 @@ MIT License – free to use, modify, and share!
 
 ## Author 👨‍💻
 
-Pedro Maltez – finance and coding enthusiast. Learn and experiment with option payoffs in a visual way!
+Pedro Maltez– finance and coding enthusiast. Learn and experiment with option payoffs in a visual way!
