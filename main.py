@@ -17,6 +17,7 @@ Podes criar orçamentos, testar estratégias de poupança, fazer investimentos f
 💰 **Quanto melhor entenderes o dinheiro, mais longe ele te pode levar.**  
 Escolhe um módulo e começa a aventura! 🚀
 """)
+st.divider()
 
 # --- Encontrar capítulos disponíveis ---
 chapter_dirs = [d for d in os.listdir() if d.startswith("cap") and os.path.isdir(d)]
@@ -40,7 +41,7 @@ if "selected_simulation" not in st.session_state:
 # ========================================================
 # 🧭 SIDEBAR – ÍNDICE AUTOMÁTICO
 # ========================================================
-st.sidebar.header("📚 Índice")
+st.sidebar.header("📚 Temas a Aprender")
 
 for c in chapters:
     with st.sidebar.expander(c["title"], expanded=False):
@@ -128,5 +129,6 @@ elif st.session_state.selected_chapter and not st.session_state.selected_simulat
 else:
     sim = st.session_state.selected_simulation
     app_module = importlib.import_module(sim["module"])
-    st.markdown(f"## 🧮 {sim['title']}")
+    chapter = st.session_state.selected_chapter
+    st.markdown(f"## 🧮 {chapter['title']}")
     app_module.run()
