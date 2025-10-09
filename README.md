@@ -1,111 +1,89 @@
-# 📊 Quantitative Finance Simulations – Paul Wilmott
+# 💸 Aprender a Gerir o Meu Dinheiro — Simulações Interativas
 
-This repository contains implementations of **simulations and exercises** from *Introduction to Quantitative Finance* by **Paul Wilmott**.  
-The goal is to practice and visualize key concepts from each chapter using Python.
+**Aprender finanças pessoais nunca foi tão visual e interativo!**  
+Esta aplicação, desenvolvida em **Streamlit**, permite aos utilizadores explorar de forma simples e envolvente os principais conceitos de **poupança, investimento e planeamento financeiro**.
 
----
-
-## 📖 Project Overview
-
-The project is organized by **chapters**, each containing Python modules, Jupyter notebooks, or Streamlit apps to illustrate concepts such as:
-
-- Random walks (geometric & arithmetic)
-- Monte Carlo simulations
-- Option pricing
-- Portfolio modeling
-- Interest rate modeling
-- Other fundamental quantitative finance techniques
-
-The simulations are designed to be **interactive**, **educational**, and reproducible.
+> 🎯 Ideal para estudantes e curiosos que querem compreender **como o dinheiro cresce, se desvaloriza e se transforma em liberdade financeira.**
 
 ---
 
-## 🗂 Project Structure
+## 🚀 Funcionalidades Principais
 
-```bash
-Introducao_Matematica_Financeira/
+- 📘 **Módulos educativos** sobre finanças pessoais, divididos por capítulos temáticos.
+- 🧮 **Simulações interativas**: experimenta estratégias e vê o impacto em gráficos dinâmicos.
+- 📈 **Visualizações com Plotly**, para explorar o crescimento do dinheiro ao longo do tempo.
+- 💭 **Reflexões guiadas**, para consolidar o que aprendeste.
+- 🗺️ **Navegação modular automática** — novos capítulos e simulações são detetados sem editar o `main.py`.
+
+---
+
+## 🧠 Estrutura do Projeto
+
+A aplicação é totalmente **modular**, o que facilita a expansão com novos capítulos ou simulações.
+
+```
+📂 aprender_dinheiro/
 │
-├── cap1_paul_wilmott/ # Chapter 1: Random Walks & Coin Toss simulations
-│ ├── coin_toss/ # Module for random walk simulations
-│ │ ├── app.py # Streamlit app for Random Walks
-│ │ ├── coin_toss.py # Random walk logic (coin, geometric, arithmetic)
-│ │ ├── requirements.txt # Python dependencies for this module
-│ │ └── README.md # Documentation for chapter 1 module
+├── main.py                         # Interface principal e sistema de navegação
 │
-├── cap2_paul_wilmott/ # Chapter 2: Monte Carlo & Option Pricing (future)
-│ └── ...
+├── cap1_poupanca/                  # Capítulo 1: Poupança e Juros Compostos
+│   ├── chapter_info.py             # Metadados do capítulo
+│   ├── simulador_poupanca/         # Simulação 1
+│   │   └── app.py                  # Código Streamlit da simulação
+│   └── poupar_investir/            # Simulação 2
+│       └── app.py
 │
-├── cap3_paul_wilmott/ # Chapter 3: Portfolio simulations (future)
-│ └── ...
+├── cap2_investimentos/             # Capítulo 2 (exemplo futuro)
+│   ├── chapter_info.py
+│   └── simulacao_bolsa/
+│       └── app.py
 │
-├── LICENSE # MIT License
-├── README.md # This project documentation
-└── .gitignore # Ignore unnecessary files
+└── requirements.txt
 ```
 
-> Each chapter folder can contain multiple modules, scripts, or apps relevant to that chapter.
+Cada capítulo contém:
+- `chapter_info.py` → contém o dicionário `CHAPTER_INFO` com o título e descrição.
+- Subpastas → cada uma representa uma simulação independente (`app.py`).
 
 ---
 
-## 🚀 Installation
+## ⚙️ Instalação e Execução
 
-Clone the repository and install dependencies:
-
+### 1️⃣ Clonar o repositório
 ```bash
-git clone https://github.com/pedromaltex/Introducao_Matematica_Financeira.git
-cd Introducao_Matematica_Financeira
+git clone https://github.com/teu-utilizador/aprender-dinheiro.git
+cd aprender-dinheiro
+```
 
-# Create a virtual environment
-python3 -m venv venv
-
-# Activate the virtual environment
-# Linux/macOS
-source venv/bin/activate
-# Windows (Command Prompt)
-venv\Scripts\activate
-
-# Install dependencies for a chapter
-cd cap1_paul_wilmott/coin_toss
+### 2️⃣ Instalar as dependências
+```bash
 pip install -r requirements.txt
 ```
 
-## ▶️ Usage
-
-For chapter 1 (Random Walks), run the Streamlit app:
+### 3️⃣ Executar a aplicação
 ```bash
-streamlit run app.py
+streamlit run main.py
 ```
 
-This will open an interactive web app where you can tweak parameters like initial value, probability of upward movement, number of steps, and number of simulations.
+---
 
-Other chapters will have their own scripts or notebooks to run.
+## 🧩 Requisitos Principais
 
-## 📂 Background
+- Python 3.9 ou superior  
+- Bibliotecas:
+  - `streamlit`
+  - `plotly`
+  - `pandas`
+  - `numpy`
 
-This project is an educational resource for understanding quantitative finance principles:
+---
 
-- Random walks and stochastic processes
+## 👨‍🏫 Autor
 
-- Monte Carlo methods for pricing and risk
+**Pedro Maltez**  
+Professor de Matemática • Escola Básica 2/3 do Bairro Padre Cruz  
+📘 Projeto pedagógico: *Aprender a Gerir o Meu Dinheiro (2025/2026)*
 
-- Portfolio theory and simulation
+---
 
-- Interest rate models and derivatives
-
-It’s meant as a hands-on companion to the book by Paul Wilmott.
-
-## 🛠️ Future Plans
-
-- Complete simulations for all chapters in the book
-
-- Add more Streamlit apps for interactive exploration
-
-- Include statistical analysis (mean, variance, histograms) for simulations
-
-- Option to export results and charts as CSV or images
-
-- Incorporate real financial data for comparison
-
-## 📜 License
-
-This project is licensed under the MIT License.
+> Desenvolvido com 💙 para promover a literacia financeira nas escolas portuguesas.
