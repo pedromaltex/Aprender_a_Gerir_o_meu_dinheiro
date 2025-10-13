@@ -2,11 +2,15 @@ import streamlit as st
 import importlib
 import os
 import pkgutil
+from videos_link import MAIN_VIDEO_URL
 
 st.set_page_config(page_title="Aprender a Gerir o Meu Dinheiro", page_icon="💸", layout="centered")
 
 # --- Título e introdução ---
 st.title("💸 Aprender a Gerir o Meu Dinheiro - Aplicação")
+
+st.video(MAIN_VIDEO_URL)
+
 
 st.info("""
 👋 Olá! Pronto para descobrir o que o teu dinheiro pode fazer por ti?  
