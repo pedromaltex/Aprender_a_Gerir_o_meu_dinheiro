@@ -24,17 +24,25 @@ Escolhe um módulo e começa a aventura! 🚀
 st.divider()
 
 # --- Encontrar capítulos disponíveis ---
-chapter_dirs = [d for d in os.listdir() if d.startswith("cap") and os.path.isdir(d)]
+@st.cache_resource
+def load_chapters():
+    chapters = []
+    chapter_dirs = sorted(
+        [d for d in os.listdir() if d.startswith("cap") and os.path.isdir(d)],
+        key=lambda x: int(x.replace("cap", ""))  # Ordena cap1, cap2, cap10 corretamente
+    )
+    for d in chapter_dirs:
+        try:
+            info_module = importlib.import_module(f"{d}.chapter_info")
+            chapter_info = info_module.CHAPTER_INFO
+            chapter_info["path"] = d
+            chapters.append(chapter_info)
+        except Exception as e:
+            st.warning(f"⚠️ Falha ao carregar {d}: {e}")
+    return chapters
 
-chapters = []
-for d in chapter_dirs:
-    try:
-        info_module = importlib.import_module(f"{d}.chapter_info")
-        chapter_info = info_module.CHAPTER_INFO
-        chapter_info["path"] = d
-        chapters.append(chapter_info)
-    except Exception as e:
-        st.warning(f"⚠️ Falha ao carregar {d}: {e}")
+chapters = load_chapters()
+
 
 # --- Estado da app ---
 if "selected_chapter" not in st.session_state:
