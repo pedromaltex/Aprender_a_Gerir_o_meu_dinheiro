@@ -6,22 +6,6 @@ from videos_link import MAIN_VIDEO_URL
 
 st.set_page_config(page_title="Aprender a Gerir o Meu Dinheiro", page_icon="💸", layout="centered")
 
-# --- Título e introdução ---
-st.title("💸 Aprender a Gerir o Meu Dinheiro - Aplicação")
-
-st.video(MAIN_VIDEO_URL)
-
-
-st.info("""
-👋 Olá! Pronto para descobrir o que o teu dinheiro pode fazer por ti?  
-
-Aqui vais **jogar, simular e aprender** como gerir melhor as tuas finanças.  
-Podes criar orçamentos, testar estratégias de poupança, fazer investimentos fictícios e até competir em quizzes! 🎯  
-
-💰 **Quanto melhor entenderes o dinheiro, mais longe ele te pode levar.**  
-Escolhe um módulo e começa a aventura! 🚀
-""")
-st.divider()
 
 # --- Encontrar capítulos disponíveis ---
 @st.cache_resource
@@ -94,19 +78,24 @@ st.sidebar.markdown("Desenvolvido por **Pedro Maltez**")
 # 🧩 CONTEÚDO PRINCIPAL
 # ========================================================
 
-# Nenhum capítulo selecionado
-if not st.session_state.selected_chapter:
-    st.subheader("📘 O que queres aprender?")
-    for c in chapters:
-        with st.container(border=True):
-            st.markdown(f"### {c['title']}")
-            st.markdown(c["description"])
-            if st.button(f"➡️ Abrir {c['title']}", key=c["path"]):
-                st.session_state.selected_chapter = c
-                st.rerun()
+# Caso 1 — Simulação ativa
+if st.session_state.selected_simulation:
+    sim = st.session_state.selected_simulation
+    chapter = st.session_state.selected_chapter
+    app_module = importlib.import_module(sim["module"])
 
-# Capítulo selecionado, mas sem simulação ainda
-elif st.session_state.selected_chapter and not st.session_state.selected_simulation:
+    st.markdown(f"## {chapter['title']}")
+    app_module.run()
+
+    # Botão voltar no fim da simulação
+    st.divider()
+    if st.button("⬅️ Voltar ao início"):
+        st.session_state.selected_chapter = None
+        st.session_state.selected_simulation = None
+        st.rerun()
+
+# Caso 2 — Capítulo selecionado, mas sem simulação
+elif st.session_state.selected_chapter:
     chapter = st.session_state.selected_chapter
     st.header(f"📘 {chapter['title']}")
     st.markdown(chapter["description"])
@@ -129,7 +118,7 @@ elif st.session_state.selected_chapter and not st.session_state.selected_simulat
     if sims:
         for s in sims:
             with st.container(border=True):
-                st.markdown(f"#### 🧮 {s['title']}")
+                st.markdown(f"#### {s['title']}")
                 st.markdown(s["description"])
                 if st.button(f"▶️ Iniciar {s['title']}", key=s["module"]):
                     st.session_state.selected_simulation = s
@@ -137,10 +126,34 @@ elif st.session_state.selected_chapter and not st.session_state.selected_simulat
     else:
         st.info("🚧 Ainda não há simulações neste capítulo.")
 
-# Simulação ativa
+    # Botão voltar no fim da simulação
+    st.divider()
+    if st.button("⬅️ Voltar ao início"):
+        st.session_state.selected_chapter = None
+        st.session_state.selected_simulation = None
+        st.rerun()
+
+# Caso 3 — Página inicial (nenhum capítulo nem simulação)
 else:
-    sim = st.session_state.selected_simulation
-    app_module = importlib.import_module(sim["module"])
-    chapter = st.session_state.selected_chapter
-    st.markdown(f"## 🧮 {chapter['title']}")
-    app_module.run()
+    st.title("💸 Aprender a Gerir o Meu Dinheiro - Aplicação")
+    st.video(MAIN_VIDEO_URL)
+
+    st.info("""
+    👋 Olá! Pronto para descobrir o que o teu dinheiro pode fazer por ti?  
+
+    Aqui vais **jogar, simular e aprender** como gerir melhor as tuas finanças.  
+    Podes criar orçamentos, testar estratégias de poupança, fazer investimentos fictícios e até competir em quizzes! 🎯  
+
+    💰 **Quanto melhor entenderes o dinheiro, mais longe ele te pode levar.**  
+    Escolhe um módulo e começa a aventura! 🚀
+    """)
+    st.divider()
+
+    st.subheader("📘 O que queres aprender?")
+    for c in chapters:
+        with st.container(border=True):
+            st.markdown(f"### {c['title']}")
+            st.markdown(c["description"])
+            if st.button(f"➡️ Abrir {c['title']}", key=c["path"]):
+                st.session_state.selected_chapter = c
+                st.rerun()
