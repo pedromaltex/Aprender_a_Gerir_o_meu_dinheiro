@@ -136,7 +136,7 @@ elif st.session_state.selected_chapter:
 # Caso 3 — Página inicial (nenhum capítulo nem simulação)
 else:
     st.title("💸 Aprender a Gerir o Meu Dinheiro - Aplicação")
-    st.video(MAIN_VIDEO_URL)
+    #st.video(MAIN_VIDEO_URL)
 
     st.info("""
     👋 Olá! Pronto para descobrir o que o teu dinheiro pode fazer por ti?  
