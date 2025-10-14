@@ -7,8 +7,8 @@ import plotly.express as px
 APP_INFO = {
     "title": "📊 Simulação de Diversificação Animada",
     "description": (
-        "Observa vários stocks e escolhe aquele que acreditas que vai performar melhor.\n"
-        "Depois vê como ele evolui passo a passo comparado com o ETF."
+        "Observa vários ações e escolhe aquele que acreditas que vai subir mais.\n"
+        "Depois vê como ele evolui passo a passo comparado com a média."
     )
 }
 
@@ -38,7 +38,7 @@ if st.session_state.reset:
 # --- Função principal ---
 def run():
     st.subheader(APP_INFO["title"])
-    st.markdown(APP_INFO["description"])
+    st.info(APP_INFO["description"])
     st.divider()
 
     steps = 4000
