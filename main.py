@@ -135,21 +135,22 @@ elif st.session_state.selected_chapter:
 
 # Caso 3 — Página inicial (nenhum capítulo nem simulação)
 else:
-    st.title("💸 Aprender a Gerir o Meu Dinheiro - Aplicação")
-    #st.video(MAIN_VIDEO_URL)
+    
+    st.header("💸 Aprender a Gerir o Meu Dinheiro")
+    st.video(MAIN_VIDEO_URL)
 
     st.info("""
-    👋 Olá! Pronto para descobrir o que o teu dinheiro pode fazer por ti?  
-
-    Aqui vais **jogar, simular e aprender** como gerir melhor as tuas finanças.  
-    Podes criar orçamentos, testar estratégias de poupança, fazer investimentos fictícios e até competir em quizzes! 🎯  
-
-    💰 **Quanto melhor entenderes o dinheiro, mais longe ele te pode levar.**  
+    👋 Olá! Descobre como o teu dinheiro pode trabalhar por ti!
+            
+    🎯 Joga, simula e aprende a gerir as tuas finanças.
+    
+    💰 Quanto melhor entenderes o dinheiro, mais longe vais chegar.
+    
     Escolhe um módulo e começa a aventura! 🚀
     """)
     st.divider()
 
-    st.subheader("📘 O que queres aprender?")
+    st.subheader("📘 Explora!")
     for c in chapters:
         with st.container(border=True):
             st.markdown(f"### {c['title']}")
