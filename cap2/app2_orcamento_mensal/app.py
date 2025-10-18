@@ -4,7 +4,7 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "💼 Simulador de Orçamento Mensal",
+    "title": "Objectivo 2 - 💼 Simulador de Orçamento Mensal",
     "description": (
         "Aprende a **equilibrar rendimentos e despesas** de forma divertida! 🧮💸\n\n"
         "Cria o teu orçamento, vê quanto sobra (ou falta!) e descobre como pequenas decisões "

@@ -5,7 +5,7 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "💰 Desafio da Poupança",
+    "title": "Objectivo 1 - 💰 Desafio da Poupança",
     "description": (
         "Define um objetivo de poupança e vê **quanto tempo precisas para alcançá-lo**! 🏦\n\n"
         "Experimenta diferentes valores de poupança mensal e percebe como pequenas mudanças podem acelerar o teu sucesso financeiro. 🚀"

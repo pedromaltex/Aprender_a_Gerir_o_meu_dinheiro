@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "💶 Simulador da Regra 50/30/20",
+    "title": "Objectivo 4 - 💶 Simulador da Regra 50/30/20",
     "description": (
         "Aprende a distribuir o teu dinheiro com a **regra 50/30/20**! 🧮💡\n\n"
         "Divide o rendimento entre **necessidades**, **desejos** e **poupança** — "

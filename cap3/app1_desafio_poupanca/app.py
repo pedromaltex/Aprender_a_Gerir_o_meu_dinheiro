@@ -94,15 +94,15 @@ def run():
 
         initial_prices = df_all.iloc[1999, :-1]  # preços no momento 1
         final_prices = df_all.iloc[-1, :-1]      # preços no momento 2
-        initial_etf = df_all["ETF"].iloc[1999]
-        final_etf = df_all["ETF"].iloc[-1]
+        initial_etf = df_all["Média"].iloc[1999]
+        final_etf = df_all["Média"].iloc[-1]
 
         investment = 1000
         values = {
             stock: investment * (final_prices[stock] / initial_prices[stock])
             for stock in final_prices.index
         }
-        values["ETF"] = investment * (final_etf / initial_etf)
+        values["Média"] = investment * (final_etf / initial_etf)
 
         # --- Tabela de resultados ---
         results_df = pd.DataFrame({
