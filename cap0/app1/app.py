@@ -9,12 +9,14 @@ APP_INFO = {
         "Aprende a pensar sobre dinheiro e tomar decisões conscientes! 💸\n\n"
         "Simula como pequenas escolhas podem impactar a tua poupança ao longo do tempo. "
         "O gráfico mostra a evolução do teu dinheiro com diferentes decisões."
-    )
+    ),
+    "video_url": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
 def run():
     st.subheader(APP_INFO["title"])
     st.info(APP_INFO["description"])
+    st.video(APP_INFO["video_url"])
     st.divider()
 
     # --- Inputs do utilizador ---
@@ -66,16 +68,6 @@ def run():
     else:
         st.success("Excelente! Guardar todo o dinheiro para metas futuras acelera o crescimento da tua poupança.")
 
-    st.divider()
-
-    # --- Botões alinhados aos cantos ---
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        if st.button("⬅️ Aula Anterior"):
-            st.info("Redirecionar para a aula anterior.")
-    with col2:
-        st.button("➡️ Próxima Aula")
-        st.info("Redirecionar para a próxima aula.")
 
 if __name__ == "__main__":
     run()
