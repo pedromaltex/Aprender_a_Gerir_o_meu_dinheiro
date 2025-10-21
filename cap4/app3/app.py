@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Preço vs valor. (Introdução para próximo tema)",
+    "title": "O verdadeiro poder da organização. Regra 50/30/20.",
     "description": (
         "Será que **poupar chega**? 🤔\n\n"
         "Descobre como o teu dinheiro **cresce quando é investido** e como a **inflação reduz o seu valor real**. "

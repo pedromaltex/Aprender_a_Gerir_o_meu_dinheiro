@@ -5,7 +5,7 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "📊 Simulação de Diversificação Animada",
+    "title": "Juros compostos.",
     "description": (
         "Observa vários ações e escolhe aquele que acreditas que vai subir mais.\n"
         "Depois vê como ele evolui passo a passo comparado com a média."

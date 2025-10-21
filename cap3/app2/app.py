@@ -4,7 +4,7 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Será que preciso? Poder da linguagem que usamos.",
+    "title": "Como investir no meu futuro?",
     "description": (
         "Descobre como o teu dinheiro pode crescer ao longo do tempo! 💸\n\n"
         "Experimenta diferentes valores e vê como poupar todos os anos faz a diferença. "

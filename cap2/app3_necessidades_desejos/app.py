@@ -3,7 +3,7 @@ import random
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Objectivo 3 - 💳 Desafio das Necessidades vs Desejos",
+    "title": "Inflação na poupanças. (Ponte para próximo tema)",
     "description": (
         "Consegues distinguir o que é **necessário** do que é apenas um **desejo**? 🧠💭\n\n"
         "Classifica cada gasto e descobre se estás a pensar como um verdadeiro gestor financeiro! 💪"

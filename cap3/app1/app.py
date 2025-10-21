@@ -4,7 +4,7 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Afinal, o que é o dinheiro e para que serve?",
+    "title": "Investir? O que é isso?",
     "description": (
         "Aprende a pensar sobre dinheiro e tomar decisões conscientes! 💸\n\n"
         "Simula como pequenas escolhas podem impactar a tua poupança ao longo do tempo. "

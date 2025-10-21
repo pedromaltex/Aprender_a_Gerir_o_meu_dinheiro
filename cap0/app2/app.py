@@ -4,7 +4,7 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Simulador de Poupança e Juros Compostos",
+    "title": "Sabias que existem várias moedas diferentes?",
     "description": (
         "Descobre como o teu dinheiro pode crescer ao longo do tempo! 💸\n\n"
         "Experimenta diferentes valores e vê como poupar todos os anos faz a diferença. "

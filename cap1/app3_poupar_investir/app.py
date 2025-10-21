@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Objectivo 2 - 💵 Poupar ou Investir?",
+    "title": "Desafio: Distinguir vontades de obrigações.",
     "description": (
         "Será que **poupar chega**? 🤔\n\n"
         "Descobre como o teu dinheiro **cresce quando é investido** e como a **inflação reduz o seu valor real**. "
