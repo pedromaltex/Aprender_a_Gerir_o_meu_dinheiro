@@ -1,8 +1,9 @@
 CHAPTER_INFO = {
-    "title": "Desafio 2 - 📊 Orçamento Pessoal",
+    "title": "Desafio 2 - 📊 Poupar - Primeiro passo para um futuro.",
     "description": (
-        "Aprende a dominar o teu dinheiro! 🏦 Cria o teu orçamento mensal, equilibra rendimentos e despesas, "
-        "e vê como decisões inteligentes podem aumentar a tua poupança. Vais aprender a distinguir "
-        "necessidades de desejos de forma divertida!"
+        """
+        💰 Pequenos passos, grandes resultados! Aprende truques simples para 
+        começar a poupar, mesmo com pouco.
+        """
     )
 }

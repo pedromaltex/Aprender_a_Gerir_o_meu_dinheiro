@@ -1,8 +1,10 @@
 CHAPTER_INFO = {
     "title": "Desafio 0 - 🧠 Primeiros passos...",
     "description": (
-        "Aprende a pensar sobre dinheiro, distinguir necessidades de "
-        "quereres e tomar decisões conscientes que te ajudam a gerir "
-        "melhor o teu futuro financeiro."
+        """
+        Bem-vindo! 💬 
+        Descobre porque gerir o teu dinheiro é uma das habilidades 
+        mais importantes da vida e como tudo começa com pequenas escolhas.
+        """
     )
 }

@@ -1,60 +1,53 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Sabias que existem várias moedas diferentes?",
+    "title": "⚖️ Preço vs Valor",
     "description": (
-        "Descobre como o teu dinheiro pode crescer ao longo do tempo! 💸\n\n"
-        "Experimenta diferentes valores e vê como poupar todos os anos faz a diferença. "
-        "O gráfico mostra a evolução da tua poupança a cada ano."
-    )
+        """
+            Aprende a distinguir entre **preço** e **valor**!  
+            - Preço = quanto pagas  
+            - Valor = quanto esse produto realmente importa para ti  
+
+            💡 **Desafio:** Escolhe um produto, indica quanto estarias disposto a pagar e vê se o preço faz sentido para ti.
+        """
+    ),
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
 def run():
+    st.set_page_config(page_title="Preço vs Valor", page_icon="⚖️")
+    
     st.subheader(APP_INFO["title"])
-    st.markdown(APP_INFO["description"])
-    st.divider()
+    st.video(APP_INFO["video"])
+    st.info(APP_INFO["description"])
 
-    # --- Inputs simplificados ---
-    col1, col2 = st.columns(2)
-    with col1:
-        initial = st.number_input("💵 Com quanto dinheiro começas?", min_value=0.0, value=100.0, step=10.0)
-        monthly = st.number_input("💰 Quanto dinheiro poupas por mês?", min_value=0.0, value=50.0, step=5.0)
-    with col2:
-        annual_growth = st.number_input("📈 Quanto cresce o dinheiro por ano (%)?", min_value=0.0, value=5.0, step=0.1)
-        years = st.slider("⏳ Por quantos anos vais poupar?", 1, 50, 20)
+    # --- Inputs do produto ---
+    produto = st.text_input("🛒 Produto:", "Bicicleta")
+    preco = st.number_input("💰 Preço do produto (€):", min_value=0.0, value=100.0, step=5.0)
+    disposto = st.number_input("💭 Quanto estavas disposto a pagar (€)?", min_value=0.0, value=80.0, step=5.0)
+    valor_perc = st.slider("🌟 Quanto valor este produto tem para ti? (1 = pouco, 10 = muito)", 1, 10, 5)
 
-    # --- Cálculo do montante com juros anuais ---
-    balance = []
-    current = initial
-    for year in range(1, years + 1):
-        # Somar depósitos anuais
-        current += monthly * 12
-        # Aplicar juros anuais
-        current *= (1 + annual_growth / 100)
-        balance.append(current)
+    st.markdown("---")
+    st.subheader("Resultado:")
 
-    # --- Criar DataFrame para gráfico anual ---
-    df = pd.DataFrame({
-        "Ano": range(1, years + 1),
-        "Saldo (€)": balance
-    })
+    # --- Lógica de avaliação ---
+    if preco <= disposto:
+        st.success(f"✅ O {produto} está dentro do valor que consideras justo! Boa compra.")
+    elif preco <= disposto * 1.2:
+        st.info(f"ℹ️ O {produto} custa um pouco mais do que querias pagar, mas pode valer a pena se o valor for alto ({valor_perc}/10).")
+    else:
+        st.warning(f"⚠️ O {produto} está **acima do que estás disposto a pagar**. Talvez o preço não compense o valor que lhe atribuis.")
 
-    # --- Mostrar resultado final ---
-    st.metric("💎 Valor Final Estimado", f"{balance[-1]:,.2f} €")
+    # --- Mostrar resumo ---
+    st.markdown("### Resumo da tua escolha")
+    st.write(f"- Produto: {produto}")
+    st.write(f"- Preço: {preco:.2f} €")
+    st.write(f"- Valor percebido: {valor_perc}/10")
+    st.write(f"- Estavas disposto a pagar: {disposto:.2f} €")
 
-    # --- Gráfico interativo com Plotly ---
-    fig = px.line(df, x="Ano", y="Saldo (€)",
-                  title="Evolução da Poupança ao Longo dos Anos",
-                  labels={"Ano": "Ano", "Saldo (€)": "Saldo (€)"},
-                  template="plotly_white")
-    fig.update_traces(mode="lines+markers", line=dict(color="green", width=3), marker=dict(size=8))
-    fig.update_layout(title_font_size=20, xaxis_title_font_size=14, yaxis_title_font_size=14)
+    st.markdown("---")
+    st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")
 
-    st.plotly_chart(fig, use_container_width=True)
-
-    # --- Mostrar tabela opcional ---
-    if st.checkbox("📋 Mostrar tabela com valores anuais"):
-        st.dataframe(df)
+if __name__ == "__main__":
+    run()

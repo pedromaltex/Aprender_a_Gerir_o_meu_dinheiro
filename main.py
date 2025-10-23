@@ -154,7 +154,7 @@ else:
     for c in chapters:
         with st.container(border=True):
             st.markdown(f"### {c['title']}")
-            st.markdown(c["description"])
+            st.success(c["description"])
             if st.button(f"➡️ Abrir {c['title']}", key=c["path"]):
                 st.session_state.selected_chapter = c
                 st.rerun()

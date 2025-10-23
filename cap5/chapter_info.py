@@ -1,7 +1,10 @@
 CHAPTER_INFO = {
-    "title": "🎯 Quiz Interativo de Literacia Financeira",
+    "title": "🎯 Aula Final, Quiz e Agradecimentos",
     "description": (
-        "Hora de testar os teus conhecimentos! 🕹️ Participa em quizzes divertidos sobre poupança, orçamento, "
-        "investimentos e consumo responsável. Aprende enquanto te divertes e compete com os teus colegas!"
+        """
+        🎯 Testa o que aprendeste com um quiz final divertido e leva contigo dicas
+        para continuares a crescer financeiramente. Obrigado por chegares até 
+        aqui! 🙌
+        """
     )
 }

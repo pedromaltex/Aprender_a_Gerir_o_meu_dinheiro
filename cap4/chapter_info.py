@@ -1,8 +1,9 @@
 CHAPTER_INFO = {
-    "title": "🌱 Sustentabilidade e Consumo Consciente",
+    "title": "Desafio 4 - 🌱 Orçamentar - Como organizar.",
     "description": (
-        "Aprende a gastar com consciência! 💡 Descobre como escolhas financeiras responsáveis podem "
-        "proteger o ambiente e o teu futuro. Planeia objetivos financeiros, experimenta cenários e "
-        "sente-te orgulhoso de fazer escolhas inteligentes!"
+        """
+        🧾 Organiza-te e ganha controlo! Aprende a planear, poupar e gastar com 
+        propósito, sem perder qualidade de vida.
+        """
     )
 }

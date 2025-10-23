@@ -1,8 +1,9 @@
 CHAPTER_INFO = {
-    "title": "Desafio 1 - 💶 Poupança e Juros Compostos",
+    "title": "Desafio 1 - 💶 Necessidade vs Querer",
     "description": (
-        "Descobre o poder de poupar! 💪 Aqui vais ver como pequenas poupanças regulares podem crescer "
-        "ao longo do tempo graças aos juros compostos. Experimenta diferentes valores e tempos, "
-        "e surpreende-te com o quanto o teu dinheiro pode render!"
+        """
+        🛍️ Aprende a diferenciar o que precisas mesmo do que apenas queres. 
+        Vais ver como o marketing e as redes te influenciam mais do que imaginas!
+        """
     )
 }

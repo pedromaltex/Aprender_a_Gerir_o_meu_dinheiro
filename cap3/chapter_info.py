@@ -1,8 +1,9 @@
 CHAPTER_INFO = {
-    "title": "Desafio 3 - 📈 Investimentos Simplificados",
+    "title": "Desafio 3 - 📈 Investir - Primeiros passos.",
     "description": (
-        "Torna-te um pequeno investidor! 🚀 Explora diferentes formas de investir em ativos fictícios, "
-        "descobre o que é risco e retorno, e vê como diversificar o teu portfólio. Aprende a tomar decisões "
-        "financeiras com confiança!"
+        """
+        📈 Descobre o que é fazer o dinheiro trabalhar por ti. 
+        Aprende os básicos antes de dares os teus primeiros passos no investimento.
+        """
     )
 }
