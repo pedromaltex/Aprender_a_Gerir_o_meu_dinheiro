@@ -1,95 +1,103 @@
 import streamlit as st
+import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
+import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "⏳ Tempo é dinheiro: quanto antes começares, melhor",
+    "title": "⏳ Tempo é dinheiro.",
     "description": (
-        "Será que **poupar chega**? 🤔\n\n"
-        "Descobre como o teu dinheiro **cresce quando é investido** e como a **inflação reduz o seu valor real**. "
-        "Compara o dinheiro parado, o investimento nominal e o investimento ajustado à inflação. 💸"
-    )
+        """
+        Quanto mais cedo começares a investir, maior será o efeito do **tempo** no crescimento do teu dinheiro.  
+
+        Nesta aula vais ver:
+        - Quanto podes acumular poupando uma quantia mensal
+        - Quanto ganhas em juros ao longo dos anos
+        - O impacto de começar 5 anos mais cedo
+        """
+    ),
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
-# --- Funções auxiliares ---
-def compound_interest(principal, annual_rate, years):
-    """Cálculo de juros compostos anuais"""
-    return principal * (1 + annual_rate) ** years
+# --- Função de simulação com poupança mensal ---
+def simular_poupanca(valor_mensal, anos, rendimento_anual):
+    """Simula o crescimento de poupança mensal com rendimento anual."""
+    meses = anos * 12
+    taxa_mensal = (1 + rendimento_anual / 100) ** (1/12) - 1
+    valores = []
+    saldo = 0
+    for mes in range(1, meses + 1):
+        saldo = saldo * (1 + taxa_mensal) + valor_mensal
+        valores.append(saldo)
+    df = pd.DataFrame({"Mês": np.arange(1, meses + 1), "Valor (€)": valores})
+    return df
 
-def decreasing_continuously_compounded(principal, annual_inflation, years):
-    """Desvalorização contínua (inflação)"""
-    return principal * np.exp(-annual_inflation * years)
-
-# --- Aplicação principal ---
 def run():
-    st.subheader(APP_INFO["title"])
-    st.markdown(APP_INFO["description"])
-    st.divider()
+    st.set_page_config(page_title="Tempo é dinheiro", page_icon="⏳")
+    st.title(APP_INFO["title"])
+    st.video(APP_INFO["video"])
+    st.info(APP_INFO["description"])
 
-    # --- Inputs ---
-    col1, col2 = st.columns(2)
-    with col1:
-        initial = st.number_input("💰 Quanto dinheiro tens hoje?", min_value=0.00, value=1000.00, step=100.00)
-        inflation = st.number_input("📉 Inflação anual (%)", min_value=0.00, value=2.50, step=0.10) / 100
-    with col2:
-        investment = st.number_input("📈 Taxa de rendimento anual (%)", min_value=0.00, value=7.00, step=0.10) / 100
-        years = st.slider("⏳ Quantos anos queres simular?", 1, 50, 20)
+    st.subheader("💰 Simulação de poupança mensal")
 
-    # --- Cálculos ---
-    x_years = np.arange(0, years + 1)
-    invest_nominal = [compound_interest(initial, investment, y) for y in x_years]
-    invest_real = [v / ((1 + inflation) ** y) for v, y in zip(invest_nominal, x_years)]
-    cash_real = [decreasing_continuously_compounded(initial, inflation, y) for y in x_years]
+    valor_mensal = st.number_input("Quanto vais poupar por mês (€)", min_value=10.0, value=100.0, step=10.0)
+    rendimento = st.slider("Rendimento médio anual (%)", min_value=0.0, max_value=15.0, value=6.0, step=0.1)
+    anos = st.slider("Horizonte temporal (anos)", min_value=1, max_value=40, value=20)
 
-    # --- Gráfico ---
-    fig = go.Figure()
+    # Cenário atual
+    df_atual = simular_poupanca(valor_mensal, anos, rendimento)
+    final_atual = df_atual["Valor (€)"].iloc[-1]
 
-    # Dinheiro investido (nominal)
-    fig.add_trace(go.Scatter(
-        x=x_years, y=invest_nominal,
-        mode="lines+markers",
-        name="💹 Investimento (sem inflação)",
-        line=dict(color="green", width=3)
-    ))
+    # Cenário 5 anos mais cedo
+    df_mais_cedo = simular_poupanca(valor_mensal, anos + 5, rendimento)
+    final_mais_cedo = df_mais_cedo["Valor (€)"].iloc[-1]
 
-    # Investimento ajustado à inflação
-    fig.add_trace(go.Scatter(
-        x=x_years, y=invest_real,
-        mode="lines+markers",
-        name="💰 Investimento Real (ajustado à inflação)",
-        line=dict(color="orange", width=3, dash="dash")
-    ))
-
-    # Dinheiro parado com inflação
-    fig.add_trace(go.Scatter(
-        x=x_years, y=cash_real,
-        mode="lines+markers",
-        name="📉 Dinheiro parado (inflação)",
-        line=dict(color="red", width=3, dash="dot")
-    ))
-
-    fig.update_layout(
-        title="Evolução do Valor do Dinheiro ao Longo dos Anos",
-        xaxis_title="Ano",
-        yaxis_title="Valor (€)",
-        template="plotly_white",
-        legend=dict(yanchor="bottom", y=0.02, xanchor="right", x=0.98)
+    st.success(
+        f"Se poupares **{valor_mensal:,.0f} €/mês** durante **{anos} anos**, com rendimento de **{rendimento:.1f}%/ano**, acumularás aproximadamente **{final_atual:,.0f} €**.\n\n"
+        f"Se tivesses começado **5 anos mais cedo**, o valor seria **{final_mais_cedo:,.0f} €**, demonstrando o poder do tempo e dos juros compostos."
     )
 
+    # --- Calcular juros corretos por ano ---
+    df_atual["Juros Mês (€)"] = df_atual["Valor (€)"].diff() - valor_mensal
+    df_atual.loc[0, "Juros Mês (€)"] = df_atual.loc[0, "Valor (€)"] - valor_mensal
+
+    df_atual["Ano"] = (df_atual["Mês"] - 1) // 12 + 1
+    juros_por_ano = df_atual.groupby("Ano")["Juros Mês (€)"].sum().reset_index()
+    juros_por_ano.rename(columns={"Juros Mês (€)": "Juros ganhos (€)"}, inplace=True)
+
+    st.subheader("💸 Juros ganhos por ano (aproximado)")
+    st.dataframe(juros_por_ano, hide_index=True)
+
+    # Mensagem didática
+    juros_1 = juros_por_ano.loc[juros_por_ano["Ano"] == 1, "Juros ganhos (€)"].values[0]
+    juros_5 = juros_por_ano.loc[juros_por_ano["Ano"] == 5, "Juros ganhos (€)"].values[0] if anos >= 5 else None
+    juros_ultimo = juros_por_ano.loc[juros_por_ano["Ano"] == max(juros_por_ano["Ano"]), "Juros ganhos (€)"].values[0]
+
+    msg = f"Aqui consegues perceber o quão importante é ser consistente:\n\n"
+    msg += f"- No primeiro ano, recebes aproximadamente **{juros_1:,.0f} €** de juros.\n"
+    if juros_5 is not None:
+        msg += f"- Passados 5 anos, recebes cerca de **{juros_5:,.0f} €** de juros.\n"
+    msg += f"- No último ano, recebes aproximadamente **{juros_ultimo:,.0f} €**, {juros_ultimo/valor_mensal:,.1f} vezes superior à tua poupança mensal."
+
+    st.info(msg)
+
+    # --- Gráfico comparativo ---
+    df_atual["Cenário"] = f"Começou agora ({anos} anos)"
+    df_mais_cedo["Cenário"] = f"Começou 5 anos mais cedo ({anos + 5} anos)"
+    df_comb = pd.concat([df_atual, df_mais_cedo], ignore_index=True)
+
+    fig = px.line(
+        df_comb, x="Mês", y="Valor (€)", color="Cenário",
+        labels={"Valor (€)": "Valor acumulado (€)", "Mês": "Meses"},
+        title="Comparação: Começar agora vs 5 anos mais cedo"
+    )
     st.plotly_chart(fig, use_container_width=True)
 
-    # --- Métricas ---
-    st.metric("💹 Valor investido (nominal)", f"{invest_nominal[-1]:,.2f} €")
-    st.metric("💰 Valor real do investimento", f"{invest_real[-1]:,.2f} €")
-    st.metric("📉 Valor se o dinheiro ficar parado", f"{cash_real[-1]:,.2f} €")
-
-    # --- Reflexão final ---
     st.info(
-        "💭 **Reflete:** Mesmo que o teu investimento cresça, se a inflação for alta, o poder de compra real pode diminuir. "
-        "Por isso, é importante investir com rendimentos que superem a inflação!"
+        "💬 **Conclusão:** Mesmo pequenas poupanças mensais crescem muito com o tempo e juros compostos. Começar cedo é sempre uma vantagem."
     )
 
+    st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")
 
 if __name__ == "__main__":
     run()

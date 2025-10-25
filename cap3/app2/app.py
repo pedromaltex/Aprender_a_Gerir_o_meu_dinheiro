@@ -4,15 +4,15 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "💡 Investir no futuro: começa hoje, colhe amanhã",
+    "title": "💡 Risco e tipos de investimento",
     "description": (
         """
-        Investir não é apenas para ricos — é a forma de **proteger e fazer crescer o teu dinheiro**.  
+        Nem todos os investimentos são iguais. Alguns são mais seguros, outros oferecem maior potencial de retorno — mas também maior risco.  
 
-        Nesta aula vais perceber:
-        - Quais são os **principais tipos de investimento**  
-        - Como o **risco e retorno** estão relacionados  
-        - Por que investir cedo faz toda a diferença
+        Nesta aula vais aprender:
+        - Quais são os principais tipos de investimento  
+        - Qual o risco associado a cada tipo  
+        - Como o risco e o retorno estão relacionados
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
@@ -25,7 +25,7 @@ INVESTIMENTOS = pd.DataFrame({
     "Risco": ["Muito baixo", "Baixo", "Médio", "Alto", "Médio"]
 })
 
-# --- Função de simulação simples ---
+# --- Simulação simples de crescimento ao longo de 10 anos ---
 def simular_crescimento(valor_inicial, anos, rendimento_anual):
     """Simula crescimento de um investimento sem reinvestimentos adicionais."""
     meses = anos * 12
@@ -36,37 +36,37 @@ def simular_crescimento(valor_inicial, anos, rendimento_anual):
     })
     return df
 
-# --- Aplicação principal ---
 def run():
-    st.set_page_config(page_title="Investir no futuro", page_icon="💡")
+    st.set_page_config(page_title="Risco e investimentos", page_icon="💡")
     st.title(APP_INFO["title"])
     st.video(APP_INFO["video"])
     st.info(APP_INFO["description"])
 
     # --- Mostrar tipos de investimentos ---
-    st.subheader("📊 Tipos de investimento")
+    st.subheader("📊 Tipos de investimento e risco")
     st.dataframe(INVESTIMENTOS)
 
-    # --- Selecionar investimento ---
-    st.subheader("💰 Escolhe um investimento para simular")
-    ativo = st.selectbox("Ativo", INVESTIMENTOS["Ativo"])
+    st.caption(
+        "💡 Dica: geralmente, quanto maior o risco, maior o retorno potencial — mas cuidado com perdas possíveis."
+    )
+
+    # --- Selecionar investimento para simulação ---
+    st.subheader("💰 Simula o crescimento de um investimento")
+    ativo = st.selectbox("Escolhe um ativo", INVESTIMENTOS["Ativo"])
     valor_inicial = st.number_input("Quanto queres investir (€)", min_value=100.0, value=1000.0, step=100.0)
     anos = st.slider("Horizonte temporal (anos)", min_value=1, max_value=40, value=10)
     
     rendimento = INVESTIMENTOS.loc[INVESTIMENTOS["Ativo"] == ativo, "Rendimento médio anual (%)"].values[0]
 
-    # --- Simulação ---
     df_crescimento = simular_crescimento(valor_inicial, anos, rendimento)
-    
     final_valor = df_crescimento["Valor (€)"].iloc[-1]
 
     st.success(
-        f"Se investires **{valor_inicial:,.0f} €** em **{ativo}** durante **{anos} anos**, com um rendimento médio anual de **{rendimento:.1f}%**, terás aproximadamente **{final_valor:,.0f} €**."
+        f"Se investires **{valor_inicial:,.0f} €** em **{ativo}** durante **{anos} anos**, com rendimento médio anual de **{rendimento:.1f}%**, terás aproximadamente **{final_valor:,.0f} €**."
     )
 
-
     st.info(
-        "💡 **Dica:** Quanto mais cedo começares a investir, maior será o efeito do tempo e do rendimento composto, mesmo que o valor inicial seja pequeno."
+        "💬 **Conclusão:** Cada investimento tem um nível de risco diferente. Conhecer esta relação ajuda a tomar decisões conscientes e escolher o ativo que melhor se adapta ao teu perfil."
     )
 
     st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")

@@ -1,36 +1,34 @@
-# Call and Put Payoff Viewer 📈
+# Future Value of $1 Simulation
 
-A friendly and interactive Streamlit app to visualize **call and put option payoffs**, including long/short positions and option premiums. Perfect for students, finance enthusiasts, or anyone learning options.
-
----
-
-## Features 🛠️
-
-* Select **Call or Put** option
-* Choose **Long or Short** position
-* Enter **strike price** and **premium**
-* Visualize **profit/loss at expiration** for a range of stock prices
-* Interactive Plotly chart with **breakeven point** highlighted
-* Max and Min payoff displayed for easy analysis
+Welcome to the **Future Value of $1 Simulation**, a simple and interactive **Streamlit** app to visualize how money loses value over time under continuous compounding depreciation (inflation or negative interest).
 
 ---
 
-## Installation 🚀
+## ✨ Features
 
-1. Clone the repository:
+* Input your **initial value** (default: $1)
+* Set **annual interest rate** (default: 3%)
+* Select **number of years** (1–100)
+* Visualize results as a **line chart** and **bar chart**
+* See the **final value** after the selected period
+
+---
+
+## ⚡ Installation
+
+1. Clone this repository:
 
 ```bash
 git clone https://github.com/pedromaltex/Introducao_Matematica_Financeira.git
+cd cap1_paul_wilmott/present_value
 ```
 
 2. (Optional) Create a virtual environment:
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux/macOS
+source venv/bin/activate  # Linux/Mac
 venv\Scripts\activate     # Windows
-cd cap2_paul_wilmott\call_put_options
-
 ```
 
 3. Install dependencies:
@@ -39,9 +37,11 @@ cd cap2_paul_wilmott\call_put_options
 pip install -r requirements.txt
 ```
 
+> Make sure `requirements.txt` includes `streamlit`, `numpy`, and `plotly`.
+
 ---
 
-## Usage ▶️
+## 🚀 Usage
 
 Run the app:
 
@@ -49,46 +49,39 @@ Run the app:
 streamlit run app.py
 ```
 
-* Fill in the **strike price** and **premium**.
-* Select **option type** and **position**.
-* Click **Calculate** to see the interactive payoff chart.
-* Hover over the chart to see **profit/loss** at specific stock prices.
+1. Open the **sidebar** to set simulation parameters.
+2. Click **Calculate**.
+3. Explore how the value of money changes over time.
 
 ---
 
-## Example Screenshot 📸
+## 🔍 Example
 
-![Example Screenshot](screenshots/demo.png)
+* Initial Value: $1
+* Annual Interest Rate: 3%
+* Number of Years: 20
+
+The app will display how $1 depreciates year by year, showing both charts and the final value.
 
 ---
 
-## Folder Structure 📁
+## 💻 Code Snippet
 
+```python
+import numpy as np
+
+def decreasing_continuously_compounded(P, r, t):
+    return P * np.exp(-r * t)
 ```
-call-put-payoff-app/
-├─ app.py              # Main Streamlit app
-├─ call_put_aux.py     # Option payoff helper functions
-├─ requirements.txt    # Dependencies
-├─ README.md           # This file
-└─ screenshots/        # Example screenshots (optional)
-```
 
 ---
 
-## Tech Stack 🧰
+## 📄 License
 
-* [Streamlit](https://streamlit.io/) – Web interface
-* [Plotly](https://plotly.com/python/) – Interactive charts
-* [NumPy](https://numpy.org/) – Numerical computations
+This project is licensed under the **MIT License**.
 
 ---
 
-## License 📝
+## 👤 Author
 
-MIT License – free to use, modify, and share!
-
----
-
-## Author 👨‍💻
-
-Pedro Maltez– finance and coding enthusiast. Learn and experiment with option payoffs in a visual way!
+**Pedro Maltez** – [GitHub Profile](https://github.com/pedromaltex)

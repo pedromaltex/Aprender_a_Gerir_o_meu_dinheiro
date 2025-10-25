@@ -1,97 +1,94 @@
 import streamlit as st
-import random
+import numpy as np
+import plotly.graph_objects as go
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Inflação na poupanças. (Ponte para próximo tema)",
+    "title": "⏳ Tempo é dinheiro: quanto antes começares, melhor",
     "description": (
-        "Consegues distinguir o que é **necessário** do que é apenas um **desejo**? 🧠💭\n\n"
-        "Classifica cada gasto e descobre se estás a pensar como um verdadeiro gestor financeiro! 💪"
+        "Será que **poupar chega**? 🤔\n\n"
+        "Descobre como o teu dinheiro **cresce quando é investido** e como a **inflação reduz o seu valor real**. "
+        "Compara o dinheiro parado, o investimento nominal e o investimento ajustado à inflação. 💸"
     )
 }
 
-# --- Lista de exemplos (necessidades vs desejos) ---
-ITENS = [
-    ("Comprar comida", "necessidade"),
-    ("Ir ao cinema", "desejo"),
-    ("Comprar roupa de inverno", "necessidade"),
-    ("Trocar de telemóvel só porque há um novo modelo", "desejo"),
-    ("Pagar a renda de casa", "necessidade"),
-    ("Jantar fora todas as semanas", "desejo"),
-    ("Comprar material escolar", "necessidade"),
-    ("Assinatura de streaming", "desejo"),
-    ("Medicamentos", "necessidade"),
-    ("Comprar videojogos", "desejo"),
-]
+# --- Funções auxiliares ---
+def compound_interest(principal, annual_rate, years):
+    """Cálculo de juros compostos anuais"""
+    return principal * (1 + annual_rate) ** years
 
-# Explicações curtas
-EXPLICACOES = {
-    "necessidade": "✅ Uma necessidade é algo essencial para viver com segurança e bem-estar.",
-    "desejo": "💭 Um desejo é algo que queremos, mas que podemos viver sem — ajuda a equilibrar o orçamento."
-}
+def decreasing_continuously_compounded(principal, annual_inflation, years):
+    """Desvalorização contínua (inflação)"""
+    return principal * np.exp(-annual_inflation * years)
 
-
+# --- Aplicação principal ---
 def run():
     st.subheader(APP_INFO["title"])
     st.markdown(APP_INFO["description"])
     st.divider()
 
-    # --- Inicialização da sessão ---
-    if "itens" not in st.session_state:
-        st.session_state.itens = random.sample(ITENS, len(ITENS))  # ordem aleatória
-        st.session_state.resultados = {}
-        st.session_state.mostrados = 0
+    # --- Inputs ---
+    col1, col2 = st.columns(2)
+    with col1:
+        initial = st.number_input("💰 Quanto dinheiro tens hoje?", min_value=0.00, value=1000.00, step=100.00)
+        inflation = st.number_input("📉 Inflação anual (%)", min_value=0.00, value=2.50, step=0.10) / 100
+    with col2:
+        investment = st.number_input("📈 Taxa de rendimento anual (%)", min_value=0.00, value=7.00, step=0.10) / 100
+        years = st.slider("⏳ Quantos anos queres simular?", 1, 50, 20)
 
-    # --- Mostrar um item de cada vez ---
-    if st.session_state.mostrados < len(st.session_state.itens):
-        item, resposta_correta = st.session_state.itens[st.session_state.mostrados]
-        st.markdown(f"### 💡 {item}")
-        col1, col2 = st.columns(2)
+    # --- Cálculos ---
+    x_years = np.arange(0, years + 1)
+    invest_nominal = [compound_interest(initial, investment, y) for y in x_years]
+    invest_real = [v / ((1 + inflation) ** y) for v, y in zip(invest_nominal, x_years)]
+    cash_real = [decreasing_continuously_compounded(initial, inflation, y) for y in x_years]
 
-        if col1.button("🧺 Necessidade"):
-            st.session_state.resultados[item] = "necessidade"
-            st.session_state.mostrados += 1
-            st.rerun()
-        if col2.button("🎁 Desejo"):
-            st.session_state.resultados[item] = "desejo"
-            st.session_state.mostrados += 1
-            st.rerun()
-    else:
-        # --- Mostrar resultados ---
-        st.success("🎉 Concluíste o desafio!")
-        acertos = sum(
-            1 for (item, correta) in ITENS if st.session_state.resultados.get(item) == correta
-        )
-        total = len(ITENS)
-        percentagem = (acertos / total) * 100
+    # --- Gráfico ---
+    fig = go.Figure()
 
-        st.metric("Pontuação", f"{acertos}/{total} ({percentagem:.0f}%)")
+    # Dinheiro investido (nominal)
+    fig.add_trace(go.Scatter(
+        x=x_years, y=invest_nominal,
+        mode="lines+markers",
+        name="💹 Investimento (sem inflação)",
+        line=dict(color="green", width=3)
+    ))
 
-        # Feedback geral
-        if percentagem == 100:
-            st.balloons()
-            st.success("Excelente! 💎 Tens noção clara das tuas prioridades.")
-        elif percentagem >= 70:
-            st.info("Muito bem! 👏 Já sabes distinguir o essencial do supérfluo.")
-        else:
-            st.warning("Ainda há espaço para melhorar 🧠 — tenta pensar no que é mesmo essencial.")
+    # Investimento ajustado à inflação
+    fig.add_trace(go.Scatter(
+        x=x_years, y=invest_real,
+        mode="lines+markers",
+        name="💰 Investimento Real (ajustado à inflação)",
+        line=dict(color="orange", width=3, dash="dash")
+    ))
 
-        # Mostrar explicações
-        st.divider()
-        st.markdown("### 🧾 Resumo e explicações")
-        for item, correta in ITENS:
-            resposta = st.session_state.resultados.get(item)
-            if resposta == correta:
-                st.markdown(f"✅ **{item}** → {correta.title()}")
-            else:
-                st.markdown(f"❌ **{item}** → {correta.title()} ({EXPLICACOES[correta]})")
+    # Dinheiro parado com inflação
+    fig.add_trace(go.Scatter(
+        x=x_years, y=cash_real,
+        mode="lines+markers",
+        name="📉 Dinheiro parado (inflação)",
+        line=dict(color="red", width=3, dash="dot")
+    ))
 
-        # Botão de reiniciar
-        if st.button("🔁 Tentar novamente"):
-            for key in ["itens", "resultados", "mostrados"]:
-                if key in st.session_state:
-                    del st.session_state[key]
-            st.rerun()
+    fig.update_layout(
+        title="Evolução do Valor do Dinheiro ao Longo dos Anos",
+        xaxis_title="Ano",
+        yaxis_title="Valor (€)",
+        template="plotly_white",
+        legend=dict(yanchor="bottom", y=0.02, xanchor="right", x=0.98)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    # --- Métricas ---
+    st.metric("💹 Valor investido (nominal)", f"{invest_nominal[-1]:,.2f} €")
+    st.metric("💰 Valor real do investimento", f"{invest_real[-1]:,.2f} €")
+    st.metric("📉 Valor se o dinheiro ficar parado", f"{cash_real[-1]:,.2f} €")
+
+    # --- Reflexão final ---
+    st.info(
+        "💭 **Reflete:** Mesmo que o teu investimento cresça, se a inflação for alta, o poder de compra real pode diminuir. "
+        "Por isso, é importante investir com rendimentos que superem a inflação!"
+    )
 
 
 if __name__ == "__main__":
