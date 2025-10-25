@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Tempo é dinheiro.",
+    "title": "⏳ Tempo é dinheiro: quanto antes começares, melhor",
     "description": (
         "Será que **poupar chega**? 🤔\n\n"
         "Descobre como o teu dinheiro **cresce quando é investido** e como a **inflação reduz o seu valor real**. "

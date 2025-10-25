@@ -4,57 +4,72 @@ import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Como investir no meu futuro?",
+    "title": "💡 Investir no futuro: começa hoje, colhe amanhã",
     "description": (
-        "Descobre como o teu dinheiro pode crescer ao longo do tempo! 💸\n\n"
-        "Experimenta diferentes valores e vê como poupar todos os anos faz a diferença. "
-        "O gráfico mostra a evolução da tua poupança a cada ano."
-    )
+        """
+        Investir não é apenas para ricos — é a forma de **proteger e fazer crescer o teu dinheiro**.  
+
+        Nesta aula vais perceber:
+        - Quais são os **principais tipos de investimento**  
+        - Como o **risco e retorno** estão relacionados  
+        - Por que investir cedo faz toda a diferença
+        """
+    ),
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
-def run():
-    st.subheader(APP_INFO["title"])
-    st.markdown(APP_INFO["description"])
-    st.divider()
+# --- Dados de exemplo sobre investimentos ---
+INVESTIMENTOS = pd.DataFrame({
+    "Ativo": ["Poupança", "Obrigações", "Fundos Mistos", "Ações", "Imobiliário"],
+    "Rendimento médio anual (%)": [1.5, 2.5, 4.0, 6.0, 5.0],
+    "Risco": ["Muito baixo", "Baixo", "Médio", "Alto", "Médio"]
+})
 
-    # --- Inputs simplificados ---
-    col1, col2 = st.columns(2)
-    with col1:
-        initial = st.number_input("💵 Com quanto dinheiro começas?", min_value=0.0, value=100.0, step=10.0)
-        monthly = st.number_input("💰 Quanto dinheiro poupas por mês?", min_value=0.0, value=50.0, step=5.0)
-    with col2:
-        annual_growth = st.number_input("📈 Quanto cresce o dinheiro por ano (%)?", min_value=0.0, value=5.0, step=0.1)
-        years = st.slider("⏳ Por quantos anos vais poupar?", 1, 50, 20)
-
-    # --- Cálculo do montante com juros anuais ---
-    balance = []
-    current = initial
-    for year in range(1, years + 1):
-        # Somar depósitos anuais
-        current += monthly * 12
-        # Aplicar juros anuais
-        current *= (1 + annual_growth / 100)
-        balance.append(current)
-
-    # --- Criar DataFrame para gráfico anual ---
+# --- Função de simulação simples ---
+def simular_crescimento(valor_inicial, anos, rendimento_anual):
+    """Simula crescimento de um investimento sem reinvestimentos adicionais."""
+    meses = anos * 12
+    crescimento = [valor_inicial * ((1 + rendimento_anual / 100) ** (meses / 12)) for _ in range(meses)]
     df = pd.DataFrame({
-        "Ano": range(1, years + 1),
-        "Saldo (€)": balance
+        "Mês": range(1, meses + 1),
+        "Valor (€)": crescimento
     })
+    return df
 
-    # --- Mostrar resultado final ---
-    st.metric("💎 Valor Final Estimado", f"{balance[-1]:,.2f} €")
+# --- Aplicação principal ---
+def run():
+    st.set_page_config(page_title="Investir no futuro", page_icon="💡")
+    st.title(APP_INFO["title"])
+    st.video(APP_INFO["video"])
+    st.info(APP_INFO["description"])
 
-    # --- Gráfico interativo com Plotly ---
-    fig = px.line(df, x="Ano", y="Saldo (€)",
-                  title="Evolução da Poupança ao Longo dos Anos",
-                  labels={"Ano": "Ano", "Saldo (€)": "Saldo (€)"},
-                  template="plotly_white")
-    fig.update_traces(mode="lines+markers", line=dict(color="green", width=3), marker=dict(size=8))
-    fig.update_layout(title_font_size=20, xaxis_title_font_size=14, yaxis_title_font_size=14)
+    # --- Mostrar tipos de investimentos ---
+    st.subheader("📊 Tipos de investimento")
+    st.dataframe(INVESTIMENTOS)
 
-    st.plotly_chart(fig, use_container_width=True)
+    # --- Selecionar investimento ---
+    st.subheader("💰 Escolhe um investimento para simular")
+    ativo = st.selectbox("Ativo", INVESTIMENTOS["Ativo"])
+    valor_inicial = st.number_input("Quanto queres investir (€)", min_value=100.0, value=1000.0, step=100.0)
+    anos = st.slider("Horizonte temporal (anos)", min_value=1, max_value=40, value=10)
+    
+    rendimento = INVESTIMENTOS.loc[INVESTIMENTOS["Ativo"] == ativo, "Rendimento médio anual (%)"].values[0]
 
-    # --- Mostrar tabela opcional ---
-    if st.checkbox("📋 Mostrar tabela com valores anuais"):
-        st.dataframe(df)
+    # --- Simulação ---
+    df_crescimento = simular_crescimento(valor_inicial, anos, rendimento)
+    
+    final_valor = df_crescimento["Valor (€)"].iloc[-1]
+
+    st.success(
+        f"Se investires **{valor_inicial:,.0f} €** em **{ativo}** durante **{anos} anos**, com um rendimento médio anual de **{rendimento:.1f}%**, terás aproximadamente **{final_valor:,.0f} €**."
+    )
+
+
+    st.info(
+        "💡 **Dica:** Quanto mais cedo começares a investir, maior será o efeito do tempo e do rendimento composto, mesmo que o valor inicial seja pequeno."
+    )
+
+    st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")
+
+if __name__ == "__main__":
+    run()

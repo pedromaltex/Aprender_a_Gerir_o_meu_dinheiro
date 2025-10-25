@@ -84,7 +84,7 @@ if st.session_state.selected_simulation:
     chapter = st.session_state.selected_chapter
     app_module = importlib.import_module(sim["module"])
 
-    st.markdown(f"## {chapter['title']}")
+    st.markdown(f"### {chapter['title']}")
     app_module.run()
 
     # Botão voltar no fim da simulação
