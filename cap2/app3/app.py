@@ -1,97 +1,132 @@
 import streamlit as st
-import random
+import pandas as pd
+import plotly.express as px
+import numpy as np
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Inflação na poupanças. (Ponte para próximo tema)",
+    "title": "💸 A inflação está a comer as tuas poupanças?",
     "description": (
-        "Consegues distinguir o que é **necessário** do que é apenas um **desejo**? 🧠💭\n\n"
-        "Classifica cada gasto e descobre se estás a pensar como um verdadeiro gestor financeiro! 💪"
-    )
+        """
+        A **inflação** faz com que o mesmo dinheiro valha **menos no futuro**.  
+        Mesmo que poupes todos os meses, o que hoje custa 10.000 € poderá custar **muito mais daqui a alguns anos**.
+
+        💡 Nesta simulação, podes comparar o impacto da inflação no teu objetivo e perceber
+        quanto **mais** precisas de poupar para manter o mesmo poder de compra.
+        """
+    ),
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
-# --- Lista de exemplos (necessidades vs desejos) ---
-ITENS = [
-    ("Comprar comida", "necessidade"),
-    ("Ir ao cinema", "desejo"),
-    ("Comprar roupa de inverno", "necessidade"),
-    ("Trocar de telemóvel só porque há um novo modelo", "desejo"),
-    ("Pagar a renda de casa", "necessidade"),
-    ("Jantar fora todas as semanas", "desejo"),
-    ("Comprar material escolar", "necessidade"),
-    ("Assinatura de streaming", "desejo"),
-    ("Medicamentos", "necessidade"),
-    ("Comprar videojogos", "desejo"),
-]
-
-# Explicações curtas
-EXPLICACOES = {
-    "necessidade": "✅ Uma necessidade é algo essencial para viver com segurança e bem-estar.",
-    "desejo": "💭 Um desejo é algo que queremos, mas que podemos viver sem — ajuda a equilibrar o orçamento."
-}
+# --- Funções auxiliares ---
+def valor_futuro_inflacao(valor_atual, taxa_inflacao, anos):
+    """Calcula o valor futuro ajustado pela inflação."""
+    return valor_atual * ((1 + taxa_inflacao / 100) ** anos)
 
 
+def calcular_poupanca_mensal_sem_inflacao(objetivo, anos):
+    """Poupança simples (sem inflação)."""
+    meses = anos * 12
+    return objetivo / meses
+
+
+def calcular_poupanca_mensal_com_inflacao(objetivo, anos, taxa_inflacao):
+    """Poupança ajustada à inflação."""
+    objetivo_futuro = valor_futuro_inflacao(objetivo, taxa_inflacao, anos)
+    meses = anos * 12
+    return objetivo_futuro / meses, objetivo_futuro
+
+
+def gerar_crescimento(poupanca_mensal, anos):
+    """Gera evolução da poupança (sem rendimentos)."""
+    meses = int(anos * 12)
+    valores = [poupanca_mensal * i for i in range(1, meses + 1)]
+    df = pd.DataFrame({
+        "Mês": np.arange(1, meses + 1),
+        "Valor acumulado (€)": valores
+    })
+    return df
+
+
+# --- Aplicação principal ---
 def run():
-    st.subheader(APP_INFO["title"])
-    st.markdown(APP_INFO["description"])
+    st.set_page_config(page_title="A inflação está a comer as tuas poupanças?", page_icon="💸")
+
+    st.title(APP_INFO["title"])
+    st.video(APP_INFO["video"])
+    st.info(APP_INFO["description"])
+
+    # --- Escolher objetivo ---
+    st.subheader("🎯 Define o teu objetivo")
+    objetivo_tipo = st.selectbox(
+        "Tipo de objetivo:",
+        ["Carro", "Casa", "Bicicleta", "Viagem", "Computador", "Outro"]
+    )
+
+    preco = st.number_input(
+        f"Preço atual do teu {objetivo_tipo.lower()} (€)",
+        min_value=0.0,
+        step=100.0,
+        value=10000.0 if objetivo_tipo == "Carro" else 2000.0
+    )
+
+    anos = st.slider("Prazo para o objetivo (anos)", min_value=1, max_value=30, value=5)
+
     st.divider()
 
-    # --- Inicialização da sessão ---
-    if "itens" not in st.session_state:
-        st.session_state.itens = random.sample(ITENS, len(ITENS))  # ordem aleatória
-        st.session_state.resultados = {}
-        st.session_state.mostrados = 0
+    # --- Taxa de inflação ---
+    st.subheader("📈 Taxa de inflação")
+    inflacao = st.slider("Taxa média de inflação anual (%)", min_value=0.0, max_value=10.0, value=2.0, step=0.1)
+    st.caption("ℹ️ Nota: A inflação média em Portugal nas últimas décadas tem rondado **~2% ao ano** (dados do INE).")
 
-    # --- Mostrar um item de cada vez ---
-    if st.session_state.mostrados < len(st.session_state.itens):
-        item, resposta_correta = st.session_state.itens[st.session_state.mostrados]
-        st.markdown(f"### 💡 {item}")
-        col1, col2 = st.columns(2)
+    st.divider()
 
-        if col1.button("🧺 Necessidade"):
-            st.session_state.resultados[item] = "necessidade"
-            st.session_state.mostrados += 1
-            st.rerun()
-        if col2.button("🎁 Desejo"):
-            st.session_state.resultados[item] = "desejo"
-            st.session_state.mostrados += 1
-            st.rerun()
-    else:
-        # --- Mostrar resultados ---
-        st.success("🎉 Concluíste o desafio!")
-        acertos = sum(
-            1 for (item, correta) in ITENS if st.session_state.resultados.get(item) == correta
-        )
-        total = len(ITENS)
-        percentagem = (acertos / total) * 100
+    # --- Cálculos principais ---
+    poupanca_sem = calcular_poupanca_mensal_sem_inflacao(preco, anos)
+    poupanca_com, objetivo_futuro = calcular_poupanca_mensal_com_inflacao(preco, anos, inflacao)
 
-        st.metric("Pontuação", f"{acertos}/{total} ({percentagem:.0f}%)")
+    df_sem = gerar_crescimento(poupanca_sem, anos)
+    df_sem["Cenário"] = "Sem inflação"
 
-        # Feedback geral
-        if percentagem == 100:
-            st.balloons()
-            st.success("Excelente! 💎 Tens noção clara das tuas prioridades.")
-        elif percentagem >= 70:
-            st.info("Muito bem! 👏 Já sabes distinguir o essencial do supérfluo.")
-        else:
-            st.warning("Ainda há espaço para melhorar 🧠 — tenta pensar no que é mesmo essencial.")
+    df_com = gerar_crescimento(poupanca_com, anos)
+    df_com["Cenário"] = "Com inflação"
 
-        # Mostrar explicações
-        st.divider()
-        st.markdown("### 🧾 Resumo e explicações")
-        for item, correta in ITENS:
-            resposta = st.session_state.resultados.get(item)
-            if resposta == correta:
-                st.markdown(f"✅ **{item}** → {correta.title()}")
-            else:
-                st.markdown(f"❌ **{item}** → {correta.title()} ({EXPLICACOES[correta]})")
+    df_total = pd.concat([df_sem, df_com])
 
-        # Botão de reiniciar
-        if st.button("🔁 Tentar novamente"):
-            for key in ["itens", "resultados", "mostrados"]:
-                if key in st.session_state:
-                    del st.session_state[key]
-            st.rerun()
+    # --- Resultados ---
+    st.success(
+        f"""
+        🏷️ **Hoje:** O teu {objetivo_tipo.lower()} custa **{preco:,.0f} €**  
+        📅 **Daqui a {anos} anos (com {inflacao:.1f}% de inflação):** custará cerca de **{objetivo_futuro:,.0f} €**  
+
+        💰 Para o conseguires:
+        - Sem inflação → poupar **{poupanca_sem:,.0f} € / mês**
+        - Com inflação → precisas de **{poupanca_com:,.0f} € / mês**
+        """
+    )
+
+    # --- Gráfico comparativo ---
+    fig = px.line(
+        df_total,
+        x="Mês",
+        y="Valor acumulado (€)",
+        color="Cenário",
+        title="Evolução da poupança: com e sem inflação",
+        labels={"Mês": "Meses", "Valor acumulado (€)": "Total acumulado (€)"},
+    )
+
+    # Adicionar linha do preço ajustado
+    fig.add_hline(y=preco, line_dash="dot", annotation_text="Preço atual", annotation_position="bottom right")
+    fig.add_hline(y=objetivo_futuro, line_dash="dot", annotation_text="Preço futuro (com inflação)", annotation_position="top right")
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.info(
+        "💡 A inflação **diminui o poder de compra** das tuas poupanças. "
+        "Guardar dinheiro é importante — mas fazê-lo com consciência do seu valor real é essencial!"
+    )
+
+    st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")
 
 
 if __name__ == "__main__":
