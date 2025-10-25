@@ -1,149 +1,113 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
+import numpy as np
 import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Juros compostos.",
+    "title": "💹 Juros Compostos",
     "description": (
-        "Observa vários ações e escolhe aquele que acreditas que vai subir mais.\n"
-        "Depois vê como ele evolui passo a passo comparado com a média."
-    )
+        """
+        Aprende como o **tempo, a taxa de rendimento e os aportes periódicos** fazem o teu dinheiro crescer exponencialmente.  
+
+        Nesta aula vais ver:
+        - A fórmula simples de juros compostos
+        - A fórmula com aportes periódicos
+        - Simulação ajustável por períodos: semanal, mensal ou anual
+        - Gráfico do crescimento do capital
+        """
+    ),
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
-# --- Funções auxiliares ---
-def coin(up_prob=0.5001):
-    return 1 if np.random.random() < up_prob else 0
+# --- Função de simulação ---
+def simular_juros_compostos(valor_inicial, aporte, anos, rendimento_anual, periodo):
+    """Simula crescimento de capital com juros compostos, aportes periódicos e valor inicial."""
+    # Determinar número de períodos por ano
+    freq_map = {"Semanal": 52, "Mensal": 12, "Anual": 1}
+    n_periodos_ano = freq_map[periodo]
+    
+    taxa_periodo = (1 + rendimento_anual / 100) ** (1/n_periodos_ano) - 1
+    total_periodos = anos * n_periodos_ano
 
-def geometric_random_walk(initial_value=100, up_prob=0.501, steps=4000):
-    traj = np.zeros(steps)
-    traj[0] = initial_value
-    for i in range(1, steps):
-        traj[i] = traj[i-1] * 1.01 if coin(up_prob) else traj[i-1] * 0.99
-    return traj
+    valores = []
+    saldo = valor_inicial
+    for i in range(1, total_periodos + 1):
+        saldo = saldo * (1 + taxa_periodo) + aporte
+        valores.append(saldo)
+    
+    df = pd.DataFrame({"Período": np.arange(1, total_periodos + 1), "Valor (€)": valores})
+    df["Ano"] = (df["Período"] - 1) // n_periodos_ano + 1
+    return df, taxa_periodo
 
-
-# --- Estado da app ---
-if "reset" not in st.session_state:
-    st.session_state.reset = False
-
-if "stocks_df" not in st.session_state:
-    st.session_state.stocks_df = None
-
-if st.session_state.reset:
-    st.session_state.stocks_df = None
-
-
-# --- Função principal ---
 def run():
-    st.subheader(APP_INFO["title"])
+    st.set_page_config(page_title="Juros Compostos", page_icon="💹")
+    st.title(APP_INFO["title"])
+    st.video(APP_INFO["video"])
     st.info(APP_INFO["description"])
-    st.divider()
 
-    steps = 4000
-    n_stocks = 6
+    st.subheader("💰 Configura a tua simulação de Juros Compostos")
+    
+    valor_inicial = st.number_input("Valor inicial (€)", min_value=0.0, value=0.0, step=100.0)
+    aporte = st.number_input("Aporte periódico (€)", min_value=0.0, value=100.0, step=10.0)
+    rendimento = st.slider("Taxa de rendimento anual (%)", min_value=0.0, max_value=15.0, value=6.0, step=0.1)
+    anos = st.slider("Horizonte temporal (anos)", min_value=1, max_value=40, value=20)
+    periodo = st.selectbox("Periodicidade dos aportes", ["Semanal", "Mensal", "Anual"])
 
-    if st.session_state.stocks_df is None:
-        # --- Gerar 4000 passos por stock ---
-        stocks = pd.DataFrame({
-            f"Stock {i+1}": geometric_random_walk(steps=steps)
-            for i in range(n_stocks)
-        })
-        stocks["Média"] = stocks.mean(axis=1)
+    freq_map = {"Semanal": 52, "Mensal": 12, "Anual": 1}
+    n_periodos_ano = freq_map[periodo]
+    n = anos * n_periodos_ano
+    r_periodo = (1 + rendimento / 100) ** (1/n_periodos_ano) - 1
 
-        # --- Mostrar só os primeiros 2000 passos ---
-        df_initial = stocks.iloc[:2000].copy()
-        df_initial["Step"] = df_initial.index
-
-        df_all = stocks.copy()
-        df_all["Step"] = df_all.index
-        st.session_state.stocks_df = df_all
-    else:
-        df_all = st.session_state.stocks_df
-        df_initial = df_all.iloc[:2000].copy()
-        df_initial["Step"] = df_initial.index
-
-    # --- Gráfico inicial ---
-    fig_init = px.line(
-        df_initial,
-        x="Step", y=[col for col in df_initial.columns if col != "Step"],
-        title="Evolução inicial (primeiros 2000 passos)",
-        labels={"value": "Preço", "variable": "Stock"},
-        template="plotly_white"
+    st.markdown("### 🧮 Fórmula simples de Juros Compostos (somente valor inicial)")
+    st.latex(r"""
+    FV = V_0 \cdot (1 + r)^n
+    """)
+    st.markdown(
+        f"- **V₀** = {valor_inicial} € (valor inicial)\n"
+        f"- **r** = {r_periodo:.5f} (taxa por período)\n"
+        f"- **n** = {n} (número total de períodos)"
     )
-    st.plotly_chart(fig_init, width='stretch')
 
-    # --- Escolha do ativo ---
-    choices = [f"Stock {i+1}" for i in range(n_stocks)] + ["Média"]
-    chosen_stock = st.radio("Escolhe o ativo que queres comprar:", choices)
+    st.markdown("### 🧮 Fórmula completa com aportes periódicos")
+    st.latex(r"""
+    FV = V_0 \cdot (1 + r)^n + P \cdot \frac{(1+r)^n - 1}{r}
+    """)
+    st.markdown(
+        f"- **V₀** = {valor_inicial} € (valor inicial)\n"
+        f"- **P** = {aporte} € (aporte {periodo.lower()})\n"
+        f"- **r** = {r_periodo:.5f} (taxa por período)\n"
+        f"- **n** = {n} (número total de períodos)"
+    )
 
-    # --- Mostrar resultados ---
-    if st.button("➡️ Ver resultados"):
+    # --- Simulação ---
+    df, taxa_periodo = simular_juros_compostos(valor_inicial, aporte, anos, rendimento, periodo)
+    valor_final = df["Valor (€)"].iloc[-1]
 
-        fig_all = px.line(
-            df_all,
-            x="Step", y=[col for col in df_all.columns if col != "Step"],
-            title="Evolução final (após a tua escolha)",
-            labels={"value": "Preço", "variable": "Ativo"},
-            template="plotly_white"
-        )
-        st.plotly_chart(fig_all, width='stretch')
+    st.success(
+        f"Após {anos} anos, com aporte {periodo.lower()} de {aporte:,.0f} € e valor inicial de {valor_inicial:,.0f} €, "
+        f"o teu capital será aproximadamente **{valor_final:,.0f} €**."
+    )
 
-        st.markdown("### 💰 Resultados finais:")
+    # Juros por ano
+    df["Juros Período (€)"] = df["Valor (€)"].diff() - aporte
+    df.loc[0, "Juros Período (€)"] = df.loc[0, "Valor (€)"] - aporte
+    juros_por_ano = df.groupby("Ano")["Juros Período (€)"].sum().reset_index()
+    juros_por_ano.rename(columns={"Juros Período (€)": "Juros ganhos (€)"}, inplace=True)
 
-        initial_prices = df_all.iloc[1999, :-1]  # preços no momento 1
-        final_prices = df_all.iloc[-1, :-1]      # preços no momento 2
-        initial_etf = df_all["Média"].iloc[1999]
-        final_etf = df_all["Média"].iloc[-1]
+    st.subheader("💸 Juros ganhos por ano (aproximado)")
+    st.dataframe(juros_por_ano, hide_index=True)
 
-        investment = 1000
-        values = {
-            stock: investment * (final_prices[stock] / initial_prices[stock])
-            for stock in final_prices.index
-        }
-        values["Média"] = investment * (final_etf / initial_etf)
+    # Gráfico
+    fig = px.line(df, x="Período", y="Valor (€)", title=f"Crescimento do Capital ({periodo})")
+    st.plotly_chart(fig, use_container_width=True)
 
-        # --- Tabela de resultados ---
-        results_df = pd.DataFrame({
-            "Ativo": list(values.keys()),
-            "Valor Final (€)": [f"{v:,.2f}" for v in values.values()]
-        })
+    st.info(
+        "💬 **Conclusão:** Primeiro aprendeste a fórmula básica e depois viste como os aportes periódicos aumentam exponencialmente o capital. "
+        "Quanto mais cedo e frequentes forem os aportes, maior o efeito dos juros compostos."
+    )
 
-        results_df["Ativo"] = results_df["Ativo"].apply(
-            lambda x: f"👉 **{x}**" if x == chosen_stock else x
-        )
-
-        st.dataframe(results_df, width='stretch', hide_index=True)
-
-        # --- Feedback dinâmico ---
-        chosen_value = values[chosen_stock]
-        difference = chosen_value - investment
-
-        if difference > 0:
-            st.success(
-                f"🎉 Excelente escolha! Se tivesses investido **1000 €** em **{chosen_stock}**, "
-                f"terias agora **{chosen_value:.2f} €**, ou seja, um ganho de **+{difference:.2f} €**."
-            )
-        else:
-            st.warning(
-                f"📉 A tua escolha não correu tão bem... Se tivesses investido **1000 €** em **{chosen_stock}**, "
-                f"terias agora apenas **{chosen_value:.2f} €**, uma perda de **{difference:.2f} €**."
-            )
-
-        # --- Observação educativa sobre o ETF ---
-        st.info(
-            "💡 **Sabias que a Média costuma ser mais estável?**\n\n"
-            "Como representa a média de todos os stocks, ele tende a crescer de forma mais constante, "
-            "reduzindo o risco individual de escolher uma ação que corre mal."
-        )
-
-    # --- Botão para reiniciar ---
-    if st.button("🔄 Nova simulação"):
-        st.session_state.stocks_df = None
-        st.rerun()
-
+    st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")
 
 if __name__ == "__main__":
     run()
-   
