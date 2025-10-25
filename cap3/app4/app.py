@@ -51,7 +51,7 @@ def run():
     valor_inicial = st.number_input("Valor inicial (€)", min_value=0.0, value=0.0, step=100.0)
     aporte = st.number_input("Aporte periódico (€)", min_value=0.0, value=100.0, step=10.0)
     rendimento = st.slider("Taxa de rendimento anual (%)", min_value=0.0, max_value=15.0, value=6.0, step=0.1)
-    anos = st.slider("Horizonte temporal (anos)", min_value=1, max_value=40, value=20)
+    anos = st.slider("Horizonte temporal (anos)", min_value=1, max_value=70, value=20)
     periodo = st.selectbox("Periodicidade dos aportes", ["Semanal", "Mensal", "Anual"])
 
     freq_map = {"Semanal": 52, "Mensal": 12, "Anual": 1}
@@ -65,7 +65,7 @@ def run():
     """)
     st.markdown(
         f"- **V₀** = {valor_inicial} € (valor inicial)\n"
-        f"- **r** = {r_periodo:.5f} (taxa por período)\n"
+        f"- **r** = {(r_periodo*100):.2f}% (taxa por período)\n"
         f"- **n** = {n} (número total de períodos)"
     )
 
