@@ -20,7 +20,7 @@ def gerar_cenario():
     jantar = random.randrange(10, 41, 5)
     roupa = random.randrange(20, 101, 5)        # NOVO
     eletronica = random.randrange(10, 51, 5)    # NOVO
-    carro = 300
+    carro = 400
     transporte = 40
     return salario, renda, alimentacao, eletrica_agua, ginasio, jantar, roupa, eletronica, carro, transporte
 
@@ -33,7 +33,7 @@ def atualizar_app_info(salario, renda, alimentacao, eletrica_agua, ginasio, jant
             f"mas ele divide a meias com a sua namorada, a Mariana.\n"
             f"Em alimentação costuma gastar {alimentacao}€ por mês. Eletricidade e água custam {eletrica_agua}€ por pessoa.\n"
             f"João paga {ginasio}€ de ginásio, jantar fora {jantar}€, roupa {roupa}€ e eletrónica {eletronica}€.\n"
-            f"Ele está a pensar comprar um carro ({carro}€) ou usar transporte público ({transporte}€).\n\n"
+            f"Ele está a pensar comprar um carro ({carro}€ = crédito + gasolina) para deixar de usar transporte público ({transporte}€).\n\n"
             "O desafio é aplicares a **regra 50/30/20** e perceberes o que faz sentido no orçamento."
         )
     }
@@ -133,5 +133,7 @@ def run():
         else:
             st.error(f"❌ Incorreto. A taxa de poupança seria {taxa_com_carro}%.")
 
+    st.header("❓ Tens dúvidas? Vê as dicas do vídeo!")
+    st.video("https://www.youtube.com/watch?v=5rbXGjqHCvk&t=150s")
 if __name__ == "__main__":
     run()
