@@ -1,60 +1,131 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
+import random
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "Será que preciso de orçamentar? ",
+    "title": "📝 Será que preciso de um orçamento?",
     "description": (
-        "Descobre como o teu dinheiro pode crescer ao longo do tempo! 💸\n\n"
-        "Experimenta diferentes valores e vê como poupar todos os anos faz a diferença. "
-        "O gráfico mostra a evolução da tua poupança a cada ano."
-    )
+        """
+        Ter um **orçamento** não é só para quem já trabalha ou recebe salário.  
+        Mesmo se fores estudante, com mesada, ou dinheiro de trabalhos pontuais,  
+        controlar o que entra e o que sai ajuda-te a tomar decisões melhores e a preparar-te para a idade adulta.
+
+        Nesta aula, vais refletir sobre os teus hábitos e perceber porque é importante planear o dinheiro.
+        """
+    ),
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=90s"
 }
 
+# --- Lista de perguntas ---
+PERGUNTAS = [
+    {
+        "pergunta": "Se recebes mesada semanal, mas não sabes quanto gastas, precisas de um orçamento?",
+        "opcoes": ["Sim, mesmo com pouco dinheiro.", "Não, só quem recebe salário precisa."],
+        "correta": "Sim, mesmo com pouco dinheiro.",
+        "explicacao": "Mesmo pequenas quantias precisam de planeamento para evitar gastar tudo sem perceber."
+    },
+    {
+        "pergunta": "Ter um orçamento ajuda apenas a poupar dinheiro?",
+        "opcoes": ["Sim, é só para poupar.", "Não, também ajuda a controlar gastos e tomar decisões."],
+        "correta": "Não, também ajuda a controlar gastos e tomar decisões.",
+        "explicacao": "Orçamento mostra para onde vai o dinheiro e ajuda a priorizar o que é importante."
+    },
+    {
+        "pergunta": "Se anotas todas as tuas despesas de lazer, compras e poupança, já tens um orçamento?",
+        "opcoes": ["Sim, isso é suficiente.", "Não, ainda precisas planear limites e objetivos."],
+        "correta": "Não, ainda precisas planear limites e objetivos.",
+        "explicacao": "Registrar gastos é o primeiro passo, mas definir objetivos e limites completa o orçamento."
+    },
+    {
+        "pergunta": "Se fores adulto e recebes salário, mas gastas tudo sem controlar, vais:",
+        "opcoes": ["Ter sempre poupança suficiente.", "Ter dificuldade em atingir objetivos e pagar contas."],
+        "correta": "Ter dificuldade em atingir objetivos e pagar contas.",
+        "explicacao": "Sem planeamento, mesmo salários maiores podem desaparecer rapidamente."
+    },
+    {
+        "pergunta": "O orçamento serve apenas para cortar gastos?",
+        "opcoes": ["Sim, cortar tudo que é supérfluo.", "Não, serve para equilibrar gastos, poupança e objetivos."],
+        "correta": "Não, serve para equilibrar gastos, poupança e objetivos.",
+        "explicacao": "Orçamento não é só restrição; é sobre **priorizar e organizar**."
+    },
+    {
+        "pergunta": "Se conseguires poupar mesmo pouco dinheiro todo mês, o que acontece com o tempo?",
+        "opcoes": ["Nada, é pouco para mudar algo.", "O dinheiro cresce e ajuda a atingir metas maiores."],
+        "correta": "O dinheiro cresce e ajuda a atingir metas maiores.",
+        "explicacao": "Pequenas poupanças acumulam e podem ser investidas ou usadas em objetivos futuros."
+    },
+    {
+        "pergunta": "Qual é um bom hábito financeiro desde jovem?",
+        "opcoes": ["Registrar entradas e saídas de dinheiro.", "Gastar sem se preocupar, aprender depois."],
+        "correta": "Registrar entradas e saídas de dinheiro.",
+        "explicacao": "Conhecer os teus hábitos desde cedo ajuda a tomar decisões melhores no futuro."
+    },
+    {
+        "pergunta": "Um orçamento flexível é melhor que um rígido?",
+        "opcoes": ["Sim, porque a vida muda e os gastos também.", "Não, rígido é sempre melhor."],
+        "correta": "Sim, porque a vida muda e os gastos também.",
+        "explicacao": "Flexibilidade permite ajustar o plano sem abandonar o orçamento."
+    },
+    {
+        "pergunta": "Se fores adulto e quiseres viajar ou comprar algo grande, o orçamento ajuda-te a:",
+        "opcoes": ["Guardar dinheiro e planejar a compra.", "Gastá-lo todo sem pensar."],
+        "correta": "Guardar dinheiro e planejar a compra.",
+        "explicacao": "Planeamento financeiro permite atingir objetivos maiores sem dívidas."
+    },
+    {
+        "pergunta": "Quem deve ter um orçamento?",
+        "opcoes": ["Apenas estudantes.", "Todos, jovens e adultos."],
+        "correta": "Todos, jovens e adultos.",
+        "explicacao": "Orçamento é útil para qualquer pessoa que queira controlar o seu dinheiro."
+    }
+]
+
+def verificar_resposta(pergunta_num, resposta, correta, explicacao):
+    """Mostra feedback apenas quando clicam no botão 'Verificar'."""
+    if st.button(f"Verificar Pergunta {pergunta_num}", key=f"verif_{pergunta_num}"):
+        if resposta == correta:
+            st.success(f"✅ Correto! {explicacao}")
+        else:
+            st.error(f"❌ Incorreto. {explicacao}")
+
 def run():
-    st.subheader(APP_INFO["title"])
-    st.markdown(APP_INFO["description"])
+    st.set_page_config(page_title=APP_INFO["title"], page_icon="📝")
+    st.title(APP_INFO["title"])
+    st.video(APP_INFO["video"])
+    st.info(APP_INFO["description"])
     st.divider()
 
-    # --- Inputs simplificados ---
-    col1, col2 = st.columns(2)
-    with col1:
-        initial = st.number_input("💵 Com quanto dinheiro começas?", min_value=0.0, value=100.0, step=10.0)
-        monthly = st.number_input("💰 Quanto dinheiro poupas por mês?", min_value=0.0, value=50.0, step=5.0)
-    with col2:
-        annual_growth = st.number_input("📈 Quanto cresce o dinheiro por ano (%)?", min_value=0.0, value=5.0, step=0.1)
-        years = st.slider("⏳ Por quantos anos vais poupar?", 1, 50, 20)
+    st.subheader("🧠 Testa os teus conhecimentos")
 
-    # --- Cálculo do montante com juros anuais ---
-    balance = []
-    current = initial
-    for year in range(1, years + 1):
-        # Somar depósitos anuais
-        current += monthly * 12
-        # Aplicar juros anuais
-        current *= (1 + annual_growth / 100)
-        balance.append(current)
+    # --- Seleção de 4 perguntas aleatórias e armazenamento na sessão ---
+    if "perguntas_aleatorias_aula2" not in st.session_state:
+        st.session_state.perguntas_aleatorias_aula2 = random.sample(PERGUNTAS, 4)
 
-    # --- Criar DataFrame para gráfico anual ---
-    df = pd.DataFrame({
-        "Ano": range(1, years + 1),
-        "Saldo (€)": balance
-    })
+    perguntas_aleatorias = st.session_state.perguntas_aleatorias_aula2
 
-    # --- Mostrar resultado final ---
-    st.metric("💎 Valor Final Estimado", f"{balance[-1]:,.2f} €")
+    # Exibir perguntas
+    for i, p in enumerate(perguntas_aleatorias, start=1):
+        st.markdown(f"#### {i}️⃣ {p['pergunta']}")
+        resposta = st.radio(
+            "Escolhe uma opção:",
+            p["opcoes"],
+            key=f"aula2_q{i}"
+        )
+        verificar_resposta(i, resposta, p["correta"], p["explicacao"])
+        st.divider()
 
-    # --- Gráfico interativo com Plotly ---
-    fig = px.line(df, x="Ano", y="Saldo (€)",
-                  title="Evolução da Poupança ao Longo dos Anos",
-                  labels={"Ano": "Ano", "Saldo (€)": "Saldo (€)"},
-                  template="plotly_white")
-    fig.update_traces(mode="lines+markers", line=dict(color="green", width=3), marker=dict(size=8))
-    fig.update_layout(title_font_size=20, xaxis_title_font_size=14, yaxis_title_font_size=14)
+    # --- Conclusão ---
+    st.markdown("### 🏁 Conclusão")
+    st.info(
+        """
+        Um **orçamento** é essencial, quer sejas estudante ou adulto.  
+        Ele permite-te **controlar o dinheiro**, **poupar para objetivos** e **tomar decisões mais conscientes**. 💪
+        
+        Quanto mais cedo começares, mais fácil será lidar com desafios financeiros na idade adulta.
+        """
+    )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")
 
-    # --- Mostrar tabela opcional ---
-    if st.checkbox("📋 Mostrar tabela com valores anuais"):
-        st.dataframe(df)
+if __name__ == "__main__":
+    run()

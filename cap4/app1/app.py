@@ -13,7 +13,7 @@ APP_INFO = {
         porque é que ter um orçamento é essencial para a tua liberdade financeira.
         """
     ),
-    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=35s"
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
 # --- Lista de perguntas ---
@@ -96,7 +96,6 @@ def verificar_resposta(pergunta_num, resposta, correta, explicacao):
             st.error(f"❌ Incorreto. {explicacao}")
 
 def run():
-    st.set_page_config(page_title=APP_INFO["title"], page_icon="💰")
     st.title(APP_INFO["title"])
     st.video(APP_INFO["video"])
     st.info(APP_INFO["description"])

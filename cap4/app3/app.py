@@ -1,95 +1,89 @@
 import streamlit as st
-import numpy as np
-import plotly.graph_objects as go
+import pandas as pd
+import plotly.express as px
 
 # --- Informação da aplicação ---
 APP_INFO = {
-    "title": "O verdadeiro poder da organização. Regra 50/30/20.",
+    "title": "📊 Poder em Simplicidade: Regra 50/30/20",
     "description": (
-        "Será que **poupar chega**? 🤔\n\n"
-        "Descobre como o teu dinheiro **cresce quando é investido** e como a **inflação reduz o seu valor real**. "
-        "Compara o dinheiro parado, o investimento nominal e o investimento ajustado à inflação. 💸"
-    )
+        """
+        A **regra 50/30/20** ajuda-te a distribuir o teu dinheiro de forma simples e eficaz:  
+
+        - **50%** para necessidades essenciais (alimentação, transporte, contas básicas)  
+        - **30%** para desejos e lazer (saídas, hobbies, compras supérfluas)  
+        - **20%** para poupança ou investimento (objetivos futuros, emergência, educação)
+
+        Nesta aula, vais ver como aplicar esta regra mesmo com mesada ou salário.
+        """
+    ),
+    "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=150s"
 }
 
-# --- Funções auxiliares ---
-def compound_interest(principal, annual_rate, years):
-    """Cálculo de juros compostos anuais"""
-    return principal * (1 + annual_rate) ** years
-
-def decreasing_continuously_compounded(principal, annual_inflation, years):
-    """Desvalorização contínua (inflação)"""
-    return principal * np.exp(-annual_inflation * years)
-
-# --- Aplicação principal ---
 def run():
-    st.subheader(APP_INFO["title"])
-    st.markdown(APP_INFO["description"])
+    st.title(APP_INFO["title"])
+    st.video(APP_INFO["video"])
+    st.info(APP_INFO["description"])
     st.divider()
 
-    # --- Inputs ---
-    col1, col2 = st.columns(2)
-    with col1:
-        initial = st.number_input("💰 Quanto dinheiro tens hoje?", min_value=0.00, value=1000.00, step=100.00)
-        inflation = st.number_input("📉 Inflação anual (%)", min_value=0.00, value=2.50, step=0.10) / 100
-    with col2:
-        investment = st.number_input("📈 Taxa de rendimento anual (%)", min_value=0.00, value=7.00, step=0.10) / 100
-        years = st.slider("⏳ Quantos anos queres simular?", 1, 50, 20)
+    st.subheader("💡 Testa a Regra 50/30/20 com o teu dinheiro")
 
-    # --- Cálculos ---
-    x_years = np.arange(0, years + 1)
-    invest_nominal = [compound_interest(initial, investment, y) for y in x_years]
-    invest_real = [v / ((1 + inflation) ** y) for v, y in zip(invest_nominal, x_years)]
-    cash_real = [decreasing_continuously_compounded(initial, inflation, y) for y in x_years]
-
-    # --- Gráfico ---
-    fig = go.Figure()
-
-    # Dinheiro investido (nominal)
-    fig.add_trace(go.Scatter(
-        x=x_years, y=invest_nominal,
-        mode="lines+markers",
-        name="💹 Investimento (sem inflação)",
-        line=dict(color="green", width=3)
-    ))
-
-    # Investimento ajustado à inflação
-    fig.add_trace(go.Scatter(
-        x=x_years, y=invest_real,
-        mode="lines+markers",
-        name="💰 Investimento Real (ajustado à inflação)",
-        line=dict(color="orange", width=3, dash="dash")
-    ))
-
-    # Dinheiro parado com inflação
-    fig.add_trace(go.Scatter(
-        x=x_years, y=cash_real,
-        mode="lines+markers",
-        name="📉 Dinheiro parado (inflação)",
-        line=dict(color="red", width=3, dash="dot")
-    ))
-
-    fig.update_layout(
-        title="Evolução do Valor do Dinheiro ao Longo dos Anos",
-        xaxis_title="Ano",
-        yaxis_title="Valor (€)",
-        template="plotly_white",
-        legend=dict(yanchor="bottom", y=0.02, xanchor="right", x=0.98)
+    # --- Inputs do utilizador ---
+    valor_total = st.number_input(
+        "Quanto dinheiro tens para gerir neste mês? (€)", min_value=10.0, value=20.0, step=5.0
     )
 
+    st.markdown("### Ajusta os teus percentuais (opcional)")
+    necessidades_pct = st.slider("Necessidades (%)", 0, 100)
+    desejos_pct = st.slider("Desejos (%)", 0, 100)
+    poupanca_pct = 100 - necessidades_pct - desejos_pct
+
+    # --- Mensagem de aviso sobre poupança ---
+    if poupanca_pct < 0:
+        st.error(
+            f"❌ A poupança está negativa ({poupanca_pct}%). "
+            "Isto significa que estarás a gastar mais do que tens e a usar dinheiro que devias poupar."
+        )
+    elif poupanca_pct < 10:
+        st.warning(f"⚠️ Atenção! A tua poupança está baixa ({poupanca_pct}%). Tenta aumentar para pelo menos 20%.")
+    elif 10 <= poupanca_pct < 20:
+        st.info(f"ℹ️ A tua poupança está moderada ({poupanca_pct}%). Considera aumentar um pouco para objetivos futuros.")
+    else:
+        st.success(f"✅ Excelente! A tua poupança está adequada ({poupanca_pct}%).")
+
+    st.info(f"Poupança / Investimento será automaticamente {poupanca_pct}%")
+
+    # --- Cálculo da distribuição ---
+    distribuicao = {
+        "Categoria": ["Necessidades", "Desejos", "Poupança / Investimento"],
+        "Valor (€)": [
+            valor_total * necessidades_pct / 100,
+            valor_total * desejos_pct / 100,
+            valor_total * poupanca_pct / 100
+        ]
+    }
+    df = pd.DataFrame(distribuicao)
+
+    # --- Mostrar tabela ---
+    st.markdown("### 💵 Distribuição do teu dinheiro")
+    st.dataframe(df.style.format({"Valor (€)": "€{:.2f}"}))
+
+    # --- Gráfico interativo ---
+    fig = px.pie(df, names="Categoria", values="Valor (€)",
+                 title="Distribuição segundo a Regra 50/30/20",
+                 color_discrete_sequence=px.colors.qualitative.Pastel)
     st.plotly_chart(fig, use_container_width=True)
 
-    # --- Métricas ---
-    st.metric("💹 Valor investido (nominal)", f"{invest_nominal[-1]:,.2f} €")
-    st.metric("💰 Valor real do investimento", f"{invest_real[-1]:,.2f} €")
-    st.metric("📉 Valor se o dinheiro ficar parado", f"{cash_real[-1]:,.2f} €")
-
-    # --- Reflexão final ---
+    st.markdown("### 📝 Reflexão")
     st.info(
-        "💭 **Reflete:** Mesmo que o teu investimento cresça, se a inflação for alta, o poder de compra real pode diminuir. "
-        "Por isso, é importante investir com rendimentos que superem a inflação!"
+        """
+        - Esta regra é simples e flexível: podes ajustá-la conforme a tua realidade.  
+        - Mesmo com pouco dinheiro, reservar **20% para poupança ou objetivos futuros** faz diferença ao longo do tempo.  
+        - Se fores estudante, aplica a regra à mesada ou dinheiro de trabalhos pontuais.  
+        - Para adultos, aplica ao salário e despesas fixas e variáveis.
+        """
     )
 
+    st.caption("Projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro 🪙")
 
 if __name__ == "__main__":
     run()
