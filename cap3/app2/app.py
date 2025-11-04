@@ -7,12 +7,22 @@ APP_INFO = {
     "title": "💡 Risco e tipos de investimento",
     "description": (
         """
-        Nem todos os investimentos são iguais. Alguns são mais seguros, outros oferecem maior potencial de retorno — mas também maior risco.  
+        Nem todos os investimentos são iguais. Alguns são mais seguros, outros oferecem maior potencial de retorno, mas também maior risco.  
 
         Nesta aula vais aprender:
         - Quais são os principais tipos de investimento  
         - Qual o risco associado a cada tipo  
         - Como o risco e o retorno estão relacionados
+
+        📌 O que vais aprender nesta aula:
+
+        ⚖️ Conceito de risco - Entender porque não há retorno sem algum nível de incerteza.  
+
+        💰 Tipos de investimento - Conhecer opções como depósitos, obrigações, ações e fundos.  
+
+        📈 Relação risco-retorno - Perceber que investimentos com maior potencial exigem maior tolerância ao risco.  
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"

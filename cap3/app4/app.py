@@ -11,10 +11,20 @@ APP_INFO = {
         Aprende como o **tempo, a taxa de rendimento e os aportes periódicos** fazem o teu dinheiro crescer exponencialmente.  
 
         Nesta aula vais ver:
-        - A fórmula simples de juros compostos
-        - A fórmula com aportes periódicos
-        - Simulação ajustável por períodos: semanal, mensal ou anual
-        - Gráfico do crescimento do capital
+        - A fórmula simples de juros compostos  
+        - A fórmula com aportes periódicos  
+        - Simulação ajustável por períodos: semanal, mensal ou anual  
+        - Gráfico do crescimento do capital  
+
+        📌 O que vais aprender nesta aula:
+
+        🧮 Conceito base - Entender como os juros compostos fazem o dinheiro crescer sobre o próprio rendimento.  
+
+        💰 Aportes regulares - Ver como contribuições constantes aceleram o crescimento do capital.  
+
+        📊 Visualização prática - Acompanhar o crescimento do investimento com gráficos e simulações interativas.  
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"

@@ -6,11 +6,21 @@ APP_INFO = {
     "title": "💰 O que é um orçamento?",
     "description": (
         """
-        Um **orçamento** é um plano simples que te ajuda a decidir **como usar o teu dinheiro** —  
+        Um **orçamento** é um plano simples que te ajuda a decidir **como usar o teu dinheiro**, 
         quanto gastar, quanto guardar e quanto poupar para o futuro. 🧾
         
         Nesta aula, vais testar o que já sabes sobre gerir dinheiro e perceber  
         porque é que ter um orçamento é essencial para a tua liberdade financeira.
+
+        📌 O que vais aprender nesta aula:
+
+        🧾 Planeamento financeiro - Compreender como organizar receitas e despesas de forma equilibrada.  
+
+        💡 Tomada de decisão - Aprender a escolher conscientemente onde e como gastar o teu dinheiro.  
+
+        🎯 Liberdade financeira - Perceber que o orçamento não limita. Dá-te controlo e tranquilidade.  
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"

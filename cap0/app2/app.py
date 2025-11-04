@@ -20,7 +20,10 @@ def run():
     
     st.subheader(APP_INFO["title"])
     st.video(APP_INFO["video"])
+
+    st.divider()
     st.info(APP_INFO["description"])
+
 
     # --- Inputs do produto ---
     produto = st.text_input("🛒 Produto:", "Bicicleta")

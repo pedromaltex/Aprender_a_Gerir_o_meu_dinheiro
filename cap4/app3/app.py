@@ -14,6 +14,16 @@ APP_INFO = {
         - **20%** para poupança ou investimento (objetivos futuros, emergência, educação)
 
         Nesta aula, vais ver como aplicar esta regra mesmo com mesada ou salário.
+
+        📌 O que vais aprender nesta aula:
+
+        ⚖️ Equilíbrio financeiro - Aprender a dividir o dinheiro entre necessidades, desejos e poupança.  
+
+        💡 Simplicidade prática - Ver como aplicar a regra 50/30/20 de forma fácil e adaptada à tua realidade.  
+
+        🎯 Objetivos claros - Entender como pequenas escolhas mensais constroem estabilidade e liberdade financeira.  
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=150s"

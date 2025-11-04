@@ -7,10 +7,21 @@ APP_INFO = {
     "title": "💭 O que é ser rico?",
     "description": (
         """
-        Será que a verdadeira riqueza vem do quanto **ganhas por mês** — ou do quanto **consegues guardar**? 💰  
+        Será que a verdadeira riqueza vem do quanto **ganhas por mês** ou do quanto **consegues guardar**? 💰  
 
-        Neste módulo vais perceber que **ser rico não é ter muito**, mas **precisar de menos**.  
-        Vamos explorar como as tuas escolhas e hábitos moldam o teu caminho financeiro. 🌱
+        Neste módulo vais perceber que **ser rico não é ganhar muito**, mas **precisar de menos**.  
+
+        Vais explorar como as tuas escolhas e hábitos moldam o teu caminho financeiro. 🌱
+
+        📌 O que vais aprender nesta aula:
+
+        💰 **Riqueza real** - Entender a diferença entre ter dinheiro e ter liberdade financeira.
+
+        🧩 **Estilo de vida** - Perceber como hábitos simples influenciam a tua estabilidade económica.
+
+        🌱 **Sustentabilidade financeira** - Aprender que ser rico é viver bem com o que tens, sem depender do consumo constante.
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"

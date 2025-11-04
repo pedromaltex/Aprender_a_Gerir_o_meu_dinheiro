@@ -11,9 +11,19 @@ APP_INFO = {
         Quanto mais cedo começares a investir, maior será o efeito do **tempo** no crescimento do teu dinheiro.  
 
         Nesta aula vais ver:
-        - Quanto podes acumular poupando uma quantia mensal
-        - Quanto ganhas em juros ao longo dos anos
-        - O impacto de começar 5 anos mais cedo
+        - Quanto podes acumular poupando uma quantia mensal  
+        - Quanto ganhas em juros ao longo dos anos  
+        - O impacto de começar 5 anos mais cedo  
+
+        📌 O que vais aprender nesta aula:
+
+        💸 Juros compostos - Compreender como o dinheiro gera mais dinheiro com o passar do tempo.  
+
+        ⏰ Importância de começar cedo - Ver como pequenas diferenças de tempo resultam em grandes diferenças de resultado.  
+
+        📊 Simulação prática - Comparar cenários de poupança e investimento ao longo de vários anos.  
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"

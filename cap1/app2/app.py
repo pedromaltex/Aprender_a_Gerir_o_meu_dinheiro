@@ -1,23 +1,35 @@
 import streamlit as st
 import pandas as pd
 import random
+from help_clean.clean_question import clean_session_questions
 
 # --- Informação da aplicação ---
 APP_INFO = {
     "title": "💭 Quiz da Mentalidade Financeira",
     "description": (
         """
-        Descobre se as tuas **crenças e atitudes sobre o dinheiro** te estão a ajudar ou a travar. 💰  
+        Descobre se as tuas **crenças e atitudes sobre o dinheiro** te estão a ajudar ou a travar. 💰
 
-        Este quiz revela como pensas sobre sucesso, esforço, investimento e risco.  
-        Não há respostas certas ou erradas, apenas **formas diferentes de ver o dinheiro**.
+        Este quiz revela como pensas sobre sucesso, esforço, investimento e risco.
+
+        Não há respostas certas ou erradas — apenas **formas diferentes de ver o dinheiro**.
+
+        📌 O que vais aprender:
+
+        🧠 **Mentalidade financeira** - Explorar como as tuas crenças influenciam as tuas decisões com o dinheiro.
+      
+        💭 **Reflexão pessoal** - Identificar padrões de pensamento que te podem estar a limitar.
+
+        🚀 **Crescimento** - Descobrir como pequenas mudanças de mentalidade podem melhorar a tua relação com o dinheiro.
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
 # --- Perguntas organizadas por tema ---
-PERGUNTAS = {
+PERGUNTAS2 = {
     "Sucesso e comparação": [
         {
             "texto": "Vês alguém com 25 anos num carro desportivo. O que pensas?",
@@ -114,6 +126,10 @@ PERGUNTAS = {
 def run():
     st.set_page_config(page_title="Quiz da Mentalidade Financeira", page_icon="💭")
 
+
+    clean_session_questions()
+
+
     st.title(APP_INFO["title"])
     st.video(APP_INFO["video"])
     st.info(APP_INFO["description"])
@@ -125,7 +141,7 @@ def run():
 
         # Selecionar 1 pergunta aleatória por tema (para tornar mais curto e dinâmico)
         perguntas_selecionadas = []
-        for tema, lista in PERGUNTAS.items():
+        for tema, lista in PERGUNTAS2.items():
             perguntas_selecionadas.append(random.choice(lista))
         random.shuffle(perguntas_selecionadas)
         st.session_state.perguntas = perguntas_selecionadas
@@ -165,9 +181,9 @@ def run():
 
         # Calcular pontuação total
         total_pontos = sum(
-            PERGUNTAS[tema][0]["opcoes"].get(resp, 0)
-            if isinstance(PERGUNTAS[tema][0], dict) else 0
-            for tema, resp in zip(PERGUNTAS.keys(), st.session_state.respostas)
+            PERGUNTAS2[tema][0]["opcoes"].get(resp, 0)
+            if isinstance(PERGUNTAS2[tema][0], dict) else 0
+            for tema, resp in zip(PERGUNTAS2.keys(), st.session_state.respostas)
         )
 
         # Como as perguntas são randomizadas, precisamos mapear o score dinamicamente:
@@ -208,7 +224,7 @@ def run():
             st.session_state.index = 0
             st.session_state.respostas = []
             perguntas_selecionadas = []
-            for tema, lista in PERGUNTAS.items():
+            for tema, lista in PERGUNTAS2.items():
                 perguntas_selecionadas.append(random.choice(lista))
             random.shuffle(perguntas_selecionadas)
             st.session_state.perguntas = perguntas_selecionadas

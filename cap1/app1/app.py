@@ -7,6 +7,27 @@ APP_INFO = {
     "title": "🧠 O que a sociedade nos impõe",
     "description": (
         """
+        Nesta aula, vamos refletir sobre como a sociedade influencia as nossas decisões financeiras
+        desde o que compramos até o que achamos que precisamos para sermos “bem-sucedidos”.
+
+        📌 O que vais aprender:
+
+        🎭 **Pressão social** - Perceber como a publicidade, as redes sociais e o grupo de amigos afetam o nosso consumo.
+
+        💸 **Consumo inconsciente** - Distinguir entre necessidades reais e desejos criados pela sociedade.
+        Entender o impacto do consumo por impulso nas finanças pessoais.
+
+        🧩 **Identidade vs. aparência** - Refletir sobre como o dinheiro pode ser usado para expressar quem somos sem cair em comparações.
+        Aprender a definir o que realmente traz valor e felicidade para ti.
+
+        💬 **Discussão guiada** - Exercícios interativos que te ajudam a reconhecer influências externas nas tuas decisões.
+        Exemplos práticos de escolhas financeiras mais conscientes.
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
+        """
+    ),
+    "description2": (
+        """
         Descobre como a sociedade, amigos, família e publicidade podem influenciar os teus desejos de consumo.  
 
         💡 **O desafio:** Decide se cada produto é uma **necessidade** ou um **desejo**.  
@@ -39,6 +60,8 @@ def run():
     st.title(APP_INFO["title"])
     st.video(APP_INFO["video"])
     st.info(APP_INFO["description"])
+    st.success("O objetivo é ajudar-te a pensar com clareza sobre o que realmente te faz feliz — e não o que a sociedade diz que devia fazer.")
+
 
     # Inicializar estado
     if "index" not in st.session_state:

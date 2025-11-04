@@ -11,6 +11,16 @@ APP_INFO = {
         controlar o que entra e o que sai ajuda-te a tomar decisões melhores e a preparar-te para a idade adulta.
 
         Nesta aula, vais refletir sobre os teus hábitos e perceber porque é importante planear o dinheiro.
+
+        📌 O que vais aprender nesta aula:
+
+        🧠 Consciência financeira - Entender porque o controlo do dinheiro é importante em qualquer fase da vida.  
+
+        💸 Gestão pessoal - Aprender a acompanhar entradas e saídas, mesmo com valores pequenos.  
+
+        🎯 Planeamento futuro - Perceber como um orçamento ajuda-te a atingir objetivos e evitar imprevistos.  
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=90s"

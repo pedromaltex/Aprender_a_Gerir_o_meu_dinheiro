@@ -9,10 +9,20 @@ APP_INFO = {
     "title": "🎯 Quanto preciso de poupar?",
     "description": (
         """
-        Escolhe um objetivo — **carro, casa, bicicleta, viagem...** —  
-        e descobre **quanto precisas de poupar por mês** ou **quanto tempo demorarias a atingir o teu sonho**.  
+        Escolhe um objetivo, **carro, casa, bicicleta, viagem...**  
+        Descobre **quanto precisas de poupar por mês** ou **quanto tempo demorarias a atingir o teu sonho**.  
 
-        💡 Aqui consideramos apenas a poupança simples, sem rendimentos — o foco é perceber o esforço necessário!
+        💡 Aqui consideramos apenas a poupança simples, sem rendimentos. O foco é perceber o esforço necessário!
+
+        📌 O que vais aprender nesta aula:
+
+        🧮 **Planeamento financeiro** - Calcular quanto precisas de poupar para atingir um objetivo específico.  
+
+        ⏳ **Tempo vs. esforço** - Perceber a relação entre o valor poupado e o tempo necessário para concretizar sonhos.  
+
+        💡 **Consciência de metas** - Refletir sobre prioridades e como tornar objetivos financeiros mais realistas.  
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"

@@ -2,24 +2,32 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import random
+from help_clean.clean_question import clean_session_questions
 
 # --- Informação da aplicação ---
 APP_INFO = {
     "title": "🧠 Será que és influenciado?",
     "description": (
         """
-        Descobre como o **marketing, a linguagem e a perceção de valor**
-        podem influenciar o que achas que precisas.  
+        Esta é uma aula de autoavaliação onde vais testar se o teu consumo é racional
+        ou se estás a cair em armadilhas criadas pelo marketing e pela perceção de valor.
 
-        💡 Repara como pequenas diferenças — como **999€ em vez de 1000€** — 
-        podem mudar a tua perceção de preço e necessidade.
+        📌 O que vais perceber nesta aula:
+
+        🧭 Autoconhecimento - Perceber até que ponto as tuas decisões de compra são influenciadas por fatores externos.
+
+        💭 Reflexão prática - Responder a perguntas rápidas que te ajudam a identificar padrões de comportamento.
+
+        🧠 Consciência financeira - Aprender a reconhecer truques de marketing como “999€” e evitar compras por impulso.
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
 }
 
 # --- Perguntas organizadas por tema ---
-PERGUNTAS = {
+PERGUNTAS0 = {
     "Preço": [
         "Um produto com 999€ parece mais barato do que um com 1000€?",
         "Se vires '-50% desconto', ficas automaticamente mais interessado?",
@@ -60,9 +68,12 @@ PERGUNTAS = {
 def run():
     st.set_page_config(page_title="Será que és influenciado?", page_icon="🧠")
 
+    clean_session_questions()
+
     st.title(APP_INFO["title"])
     st.video(APP_INFO["video"])
     st.info(APP_INFO["description"])
+
 
     # Inicializar estado
     if "index" not in st.session_state:
@@ -71,7 +82,7 @@ def run():
 
         # Selecionar 2 perguntas aleatórias por tema
         perguntas_selecionadas = []
-        for tema, lista in PERGUNTAS.items():
+        for tema, lista in PERGUNTAS0.items():
             perguntas_selecionadas.extend(random.sample(lista, 2))
         random.shuffle(perguntas_selecionadas)
         st.session_state.perguntas = perguntas_selecionadas
@@ -144,7 +155,7 @@ def run():
             st.session_state.respostas = []
             # Selecionar novas perguntas aleatórias
             perguntas_selecionadas = []
-            for tema, lista in PERGUNTAS.items():
+            for tema, lista in PERGUNTAS0.items():
                 perguntas_selecionadas.extend(random.sample(lista, 2))
             random.shuffle(perguntas_selecionadas)
             st.session_state.perguntas = perguntas_selecionadas

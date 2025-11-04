@@ -96,6 +96,7 @@ if st.session_state.selected_simulation:
 
 # Caso 2 — Capítulo selecionado, mas sem simulação
 elif st.session_state.selected_chapter:
+
     chapter = st.session_state.selected_chapter
     st.header(f"📘 {chapter['title']}")
     st.markdown(chapter["description"])

@@ -8,11 +8,21 @@ APP_INFO = {
     "title": "📈 Investir: a arma secreta contra a inflação",
     "description": (
         """
-        A **inflação** faz com que o dinheiro perca valor ao longo do tempo —  
+        Como viste, a **inflação** faz com que o dinheiro perca valor ao longo do tempo, 
         o que hoje compras com 100 €, daqui a alguns anos pode custar 120 € ou mais.  
-        
+
         **Investir** é a forma de proteger (e aumentar) o teu poder de compra.  
         Nesta simulação, vais ver a diferença entre **guardar dinheiro** e **investi-lo**.
+
+        📌 O que vais aprender nesta aula:
+
+        📉 Impacto da inflação - Perceber como a subida dos preços reduz o valor real das tuas poupanças.
+
+        📈 Poder do investimento - Compreender como investir pode superar a inflação e fazer o dinheiro crescer.
+
+        🔢 Simulação prática - Comparar o resultado de poupar vs. investir ao longo do tempo.
+
+        💡 Esta aplicação faz parte do projeto *Todos Contam — Aprender a Gerir o Meu Dinheiro*.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
