@@ -7,10 +7,10 @@ APP_INFO = {
     "title": "💰 Afinal, o que é o dinheiro e para que serve?",
     "description": (
         """
-        Bem-vindo à mini **primeira aula do nosso curso**!  
+        Bem-vindo à **primeira aula do nosso curso**!  
         Aqui vais descobrir, de forma prática e divertida, **para que serve o dinheiro**.  
 
-        📌 **O que vais aprender nesta aplicação:**
+        📌 **O que vais aprender nesta aula:**
         - 🐔 **Trocar:** Quantas galinhas valem uma bicicleta? Descobre como o dinheiro surgiu para simplificar as trocas.  
         - 🏦 **Guardar:** Aprende a poupar ao longo do tempo e ver como pequenas poupanças crescem.  
         - ⚖️ **Comparar:** Compara o valor de diferentes produtos e toma decisões inteligentes.  

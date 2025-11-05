@@ -6,9 +6,16 @@ import plotly.graph_objects as go
 APP_INFO = {
     "title": "Agradecimentos",
     "description": (
-        "Será que **poupar chega**? 🤔\n\n"
-        "Descobre como o teu dinheiro **cresce quando é investido** e como a **inflação reduz o seu valor real**. "
-        "Compara o dinheiro parado, o investimento nominal e o investimento ajustado à inflação. 💸"
+        """
+        💚 Obrigado por fazeres parte desta jornada!
+        Chegaste ao fim do curso **Aprender a Gerir o Meu Dinheiro**! 🎓  
+        - 🙌 Parabéns por teres completado todas as aulas.  
+        - 💭 Esperamos que agora saibas tomar **decisões financeiras mais inteligentes**.  
+        - 🧠 Lembra-te: poupar, planear e investir são hábitos para a vida!  
+        
+        Agora, prepara-te para o **Quiz Final** — uma forma divertida de testares tudo o que aprendeste.  
+        Boa sorte! 🍀
+        """
     )
 }
 

@@ -5,11 +5,16 @@ APP_INFO = {
     "title": "⚖️ Preço vs Valor",
     "description": (
         """
-            Aprende a distinguir entre **preço** e **valor**!  
-            - Preço = quanto pagas  
-            - Valor = quanto esse produto realmente importa para ti  
+        Aprende a distinguir entre **preço** e **valor**! ⚖️💰  
 
-            💡 **Desafio:** Escolhe um produto, indica quanto estarias disposto a pagar e vê se o preço faz sentido para ti.
+        📌 **O que vais aprender nesta aula:**
+        - 💵 **Preço:** é o que pagas por um produto ou serviço.  
+        - 💎 **Valor:** é o quanto esse produto realmente **significa ou importa** para ti.  
+        - 🤔 **Refletir:** Nem sempre o produto mais caro é o mais valioso — depende das tuas prioridades.  
+
+        💡 **Desafio:** Escolhe um produto, indica quanto estarias disposto a pagar e descobre se o preço faz sentido para ti.  
+
+        💡 Esta aplicação é parte do projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
@@ -20,9 +25,8 @@ def run():
     
     st.subheader(APP_INFO["title"])
     st.video(APP_INFO["video"])
-
-    st.divider()
     st.info(APP_INFO["description"])
+    st.divider()
 
 
     # --- Inputs do produto ---

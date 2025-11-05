@@ -5,10 +5,14 @@ APP_INFO = {
     "title": "🌍 Sabias que existem várias moedas diferentes?",
     "description": (
         """
-        Descobre como o dinheiro pode ter **valores diferentes** dependendo do país!  
-        - 💵 Insere um valor numa moeda.  
-        - 🔄 Vê quanto ele vale noutras moedas com base na taxa de câmbio.  
-        - 📊 Experimenta diferentes cenários e aprende sobre conversão de moedas.
+        Descobre como o dinheiro pode ter **valores diferentes** dependendo do país! 🌎💶  
+
+        📌 **O que vais aprender nesta aula:**
+        - 💱 **Converter:** Aprende a transformar valores entre diferentes moedas.  
+        - 📊 **Comparar:** Observa como o mesmo valor pode representar poderes de compra distintos.  
+        - 🌍 **Explorar:** Entende como as **taxas de câmbio** afetam viagens, compras online e negócios internacionais.  
+
+        💡 Esta aplicação é parte do projeto *Todos Contam* — Aprender a Gerir o Meu Dinheiro.
         """
     ),
     "video": "https://www.youtube.com/watch?v=5rbXGjqHCvk&t=261s"
